@@ -127,7 +127,7 @@ export default function QuoteList() {
                     {isPending ? (
                       <Skeleton className="h-4 w-20 mx-auto" />
                     ) : (
-                      item?.service_type
+                      item?.service
                     )}
                   </TableCell>
                   <TableCell className="text-center font-medium">

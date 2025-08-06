@@ -86,7 +86,6 @@ export default function QuoteForm() {
       // Assuming formatDate is correct and returns a string
       data.date = formatDate(data.date);
     }
-
     const formData = new FormData();
 
     // Append other data fields to the formData

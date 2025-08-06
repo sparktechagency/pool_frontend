@@ -1,24 +1,54 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+
 import { AnyType } from "@/lib/config/error-type";
-import { MailIcon, MapPin } from "lucide-react";
+import { Loader2Icon, MailIcon, MapPin } from "lucide-react";
 import Image from "next/image";
 import React from "react";
-import BidForm from "./bid-form";
 import { serverImageBuilder } from "@/lib/formatter";
+import { CurrentAplanApi, ViewBrowsedQuoteApi } from "@/lib/api/core/core";
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
+import Bidder from "./bidder";
 
-export default function Details({ data }: { data: AnyType }) {
+export default async function Details({ id }: { id: string | number }) {
+  const token = (await cookies()).get("ghost")?.value;
+
+  if (!token) {
+    return notFound();
+  }
+
+  const call: AnyType = await ViewBrowsedQuoteApi(id, token ?? "");
+  const data = call?.data;
+  const planCall: AnyType = await CurrentAplanApi(token);
+
+  if (!data) {
+    <div className={`flex justify-center items-center h-24 mx-auto`}>
+      <Loader2Icon className={`animate-spin`} />
+    </div>;
+  }
+
   return (
     <div className="w-1/2 mx-auto">
-      {data.id}
       <h1 className="text-3xl text-center mt-6">Order Details</h1>
+      {planCall?.current_plan && (
+        <div className="w-full rounded-lg bg-green-500/40 p-6 flex flex-row justify-between items-center mt-6">
+          <div className="flex flex-col">
+            <h4 className="font-bold">{planCall?.current_plan?.plan_name}</h4>
+            <p className="text-muted-foreground text-sm">
+              Your have total {planCall?.current_plan?.total_quotes} quotes
+              remaining
+            </p>
+          </div>
+          <Button
+            variant={"outline"}
+            className="rounded-full border-0!"
+            size={"sm"}
+          >
+            See all plans
+          </Button>
+        </div>
+      )}
       <Image
         src={
           data?.photos[0]
@@ -80,23 +110,7 @@ export default function Details({ data }: { data: AnyType }) {
           <p>25</p>
         </div>
       </div>
-      <div className="w-full grid grid-cols-2 gap-4 my-6">
-        <Button variant={"outline"} className="rounded-full">
-          Accept Budget
-        </Button>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="rounded-full">Start bidding</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add your bid price</DialogTitle>
-            </DialogHeader>
-            <BidForm />
-          </DialogContent>
-        </Dialog>
-      </div>
-
+      <Bidder data={data} />
       <div className="my-12">
         <h3 className="text-xl font-semibold">Payment Info</h3>
         <p>

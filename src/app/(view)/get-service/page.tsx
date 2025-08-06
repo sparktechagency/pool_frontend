@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import React from "react";
-import QuoteForm from "./quote-form";
+import QuotePage from "./quote-page";
 
 export default function Page() {
   return (
@@ -25,7 +25,7 @@ export default function Page() {
               </CardDescription>
             </CardHeader>
           </Card>
-          <QuoteForm />
+          <QuotePage />
         </section>
       </main>
     </>

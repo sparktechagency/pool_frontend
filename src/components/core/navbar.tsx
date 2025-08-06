@@ -241,12 +241,12 @@ export default function ResponsiveNavbar() {
                   <div className="px-4! md:px-6! space-y-4! mt-2">
                     <div>
                       <h2 className="text-xl font-bold flex items-center gap-2">
-                        {data.data.full_name}
+                        {data?.data?.full_name}
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <div className="rounded-full size-2.5 bg-green-600" />
                           </TooltipTrigger>
-                          <TooltipContent>{data.data.status}</TooltipContent>
+                          <TooltipContent>{data?.data?.status}</TooltipContent>
                         </Tooltip>
                       </h2>
                       <p className="text-muted-foreground text-sm">

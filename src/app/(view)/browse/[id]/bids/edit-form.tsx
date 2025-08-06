@@ -15,18 +15,30 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { useMutation } from "@tanstack/react-query";
-import { ApplyBidApi } from "@/lib/api/core/core";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EditBidApi } from "@/lib/api/core/core";
 import { AnyType } from "@/lib/config/error-type";
 import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
 const bidSchema = z.object({
   price: z.string().min(1, "Price is required"),
   outline: z.string().min(1, "Outline is required"),
 });
 
-export default function BidForm({ id }: { id: string | number }) {
+export default function EditForm({
+  id,
+  data,
+  closeDialog, // <- Prop to close the dialog
+}: {
+  id: string | number;
+  data: AnyType;
+  closeDialog: () => void; // <- Function type
+}) {
   const [cookies] = useCookies(["ghost"]);
+  const queryClient = useQueryClient();
+  console.log(data.data.price_offered);
+
   const form = useForm<z.infer<typeof bidSchema>>({
     resolver: zodResolver(bidSchema),
     defaultValues: {
@@ -38,9 +50,14 @@ export default function BidForm({ id }: { id: string | number }) {
   const { mutate } = useMutation({
     mutationKey: ["bid"],
     mutationFn: ({ data }: { data: AnyType }) => {
-      return ApplyBidApi(id, data, cookies.ghost);
+      return EditBidApi(id, data, cookies.ghost);
     },
   });
+
+  useEffect(() => {
+    form.setValue("price", data.data.price_offered);
+    form.setValue("outline", data.data.quote_outline);
+  }, [data.data.price_offered, data.data.quote_outline, form]);
 
   const onSubmit = async (data: z.infer<typeof bidSchema>) => {
     console.log("Bid Submitted:", data);
@@ -50,19 +67,28 @@ export default function BidForm({ id }: { id: string | number }) {
         quote_id: id,
         price_offered: data.price,
         quote_outline: data.outline,
+        _method: "PUT",
       };
 
       mutate(
         { data: finalizer },
         {
           onError: (err) => {
-            toast.error(err.message ?? "Bid Failed");
+            toast.error(err.message ?? "Bid Edit Failed");
           },
           onSuccess: (data: AnyType) => {
             if (!data.status) {
-              toast.error(data.message ?? "Bid Failed");
+              toast.error(data.message ?? "Bid Edit Failed");
             } else {
-              toast.success(data.message ?? "Bid successfull");
+              toast.success(data.message ?? "Bid Edit successful");
+
+              // ✅ Invalidate and refetch
+              queryClient.invalidateQueries({
+                queryKey: ["order", "myBid"],
+              });
+
+              // ✅ Close dialog
+              closeDialog();
             }
           },
         }
@@ -81,7 +107,7 @@ export default function BidForm({ id }: { id: string | number }) {
           name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Add your bid price</FormLabel>
+              <FormLabel>Edit your bid price</FormLabel>
               <FormControl>
                 <Input placeholder="Enter Price" type="number" {...field} />
               </FormControl>
@@ -103,7 +129,7 @@ export default function BidForm({ id }: { id: string | number }) {
           )}
         />
         <Button type="submit" className="w-full rounded-full">
-          Add
+          Confirm change
         </Button>
       </form>
     </Form>

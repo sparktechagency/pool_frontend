@@ -45,13 +45,17 @@ export default function SignIn() {
     login(data, {
       onSuccess: (res: AnyType) => {
         console.log(res);
-        toast.success(res.message ?? "Login Success");
-        try {
-          setCookie("ghost", res.token);
-          navig.push("/");
-        } catch (error) {
-          console.error(error);
-          toast.error("Failed to set Cookie");
+        if (res.token) {
+          toast.success(res.message ?? "Login Success");
+          try {
+            setCookie("ghost", res.token);
+            navig.push("/");
+          } catch (error) {
+            console.error(error);
+            toast.error("Failed to set Cookie");
+          }
+        } else {
+          toast.error(res.message ?? "Login Failed 202");
         }
       },
       onError: (error: AnyType) => {

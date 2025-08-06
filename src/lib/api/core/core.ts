@@ -6,8 +6,8 @@ interface ServiceRequest {
   property_type: 'family' | 'commercial' | string;
   service_type: 'pool' | 'spa' | 'pool and spa' | string;
   pool_depth: number;
-  date: string; // ISO date or "MM/DD/YYYY"
-  time: string; // "HH:MM" 24hr format
+  date: string;
+  time: string;
   zip_code: string;
   address: string;
   expected_budget: number;
@@ -90,13 +90,29 @@ export const ViewBrowsedQuoteApi = async (id:string|number,token:string)=>{
 } 
 
 export const AcceptQuoteApi = async (id:string|number,token:string)=>{
-  return await howl({link:`/provider/accept-budget?quote_id=${id}`,token,data:{}});
+  return await howl({link:`/provider/accept-budget?quote_id=${id}`, method:"post",token,data:{}});
 }
 
 export const ApplyBidApi = async (id:string|number,data:AnyType,token:string)=>{
-  return await howl({link:`/provider/apply-bid`,token,data});
+  return await howl({link:`/provider/apply-bid`,method:"post",token,data});
+}
+export const EditBidApi = async (id:string|number,data:AnyType,token:string)=>{
+  return await howl({link:`/provider/edit-your-bid`,method:"post",token,data});
 }
 
-export const CurrentAplanApi= async (id:string|number,token:string)=>{
+export const FinalSaveApi = async (id:string|number,token:string)=>{
+  return await howl({link:`/provider/make-final-save-your-bid?quote_id=${id}`,method:"patch",token});
+}
+
+export const CurrentAplanApi= async (token:string)=>{
   return await howl({link:`/provider/current-plan`,token});
-} 
+}
+
+export const getBiddingListApi = async (id:string|number,token:string)=>{  
+  return await howl({link:`/provider/bidding-lists?qupte_id=${id}`,token});
+}
+
+export const getMyBidApi = async (id:string|number,token:string)=>{  
+  return await howl({link:`/provider/get-your-bid?quote_id=${id}`,token});
+}
+

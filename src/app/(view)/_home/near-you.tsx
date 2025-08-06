@@ -13,7 +13,7 @@ export default async function NearYou() {
     return <></>;
   }
   const call: AnyType = await getProfileApi(token);
-  if (call.data.role === "USER") {
+  if (call?.data?.role === "USER") {
     return <></>;
   }
 
