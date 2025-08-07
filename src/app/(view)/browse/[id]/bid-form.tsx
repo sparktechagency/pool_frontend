@@ -19,14 +19,21 @@ import { useMutation } from "@tanstack/react-query";
 import { ApplyBidApi } from "@/lib/api/core/core";
 import { AnyType } from "@/lib/config/error-type";
 import { useCookies } from "react-cookie";
-
+import { useRouter } from "next/navigation";
 const bidSchema = z.object({
   price: z.string().min(1, "Price is required"),
   outline: z.string().min(1, "Outline is required"),
 });
 
-export default function BidForm({ id }: { id: string | number }) {
+export default function BidForm({
+  id,
+  point,
+}: {
+  id: string | number;
+  point: string | number;
+}) {
   const [cookies] = useCookies(["ghost"]);
+  const navig = useRouter();
   const form = useForm<z.infer<typeof bidSchema>>({
     resolver: zodResolver(bidSchema),
     defaultValues: {
@@ -63,6 +70,7 @@ export default function BidForm({ id }: { id: string | number }) {
               toast.error(data.message ?? "Bid Failed");
             } else {
               toast.success(data.message ?? "Bid successfull");
+              navig.push(window.location.href + "/bids");
             }
           },
         }
@@ -72,7 +80,21 @@ export default function BidForm({ id }: { id: string | number }) {
       toast.error("Something went wrong");
     }
   };
-
+  if (!point || String(point) === "0") {
+    return (
+      <div>
+        <Button
+          className="w-full"
+          onClick={() => {
+            localStorage.setItem("bid_page", window.location.href);
+            navig.push("/subscription");
+          }}
+        >
+          Buy Subscription
+        </Button>
+      </div>
+    );
+  }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

@@ -19,7 +19,13 @@ import { Loader2Icon } from "lucide-react";
 import { AcceptQuoteApi } from "@/lib/api/core/core";
 import { useRouter } from "next/navigation";
 
-export default function Bidder({ data }: { data: AnyType }) {
+export default function Bidder({
+  data,
+  point,
+}: {
+  data: AnyType;
+  point: string | number;
+}) {
   const [cookies] = useCookies(["ghost"]);
   const navig = useRouter();
   const { mutate, isPending } = useMutation({
@@ -70,9 +76,13 @@ export default function Bidder({ data }: { data: AnyType }) {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add your bid price</DialogTitle>
+            <DialogTitle>
+              {!point || String(point) === "0"
+                ? "You dont have any current plan"
+                : "Add your bid price"}
+            </DialogTitle>
           </DialogHeader>
-          <BidForm id={data.id} />
+          <BidForm id={data.id} point={point} />
         </DialogContent>
       </Dialog>
     </div>

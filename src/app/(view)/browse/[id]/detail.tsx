@@ -13,11 +13,9 @@ import Bidder from "./bidder";
 
 export default async function Details({ id }: { id: string | number }) {
   const token = (await cookies()).get("ghost")?.value;
-
   if (!token) {
     return notFound();
   }
-
   const call: AnyType = await ViewBrowsedQuoteApi(id, token ?? "");
   const data = call?.data;
   const planCall: AnyType = await CurrentAplanApi(token);

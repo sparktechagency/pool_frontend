@@ -250,7 +250,7 @@ export default function ResponsiveNavbar() {
                         </Tooltip>
                       </h2>
                       <p className="text-muted-foreground text-sm">
-                        {data.data.email}
+                        {data?.data?.email}
                       </p>
                       <div className="flex justify-end items-center gap-2">
                         <Button className="mt-6" asChild>

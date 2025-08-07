@@ -115,4 +115,11 @@ export const getBiddingListApi = async (id:string|number,token:string)=>{
 export const getMyBidApi = async (id:string|number,token:string)=>{  
   return await howl({link:`/provider/get-your-bid?quote_id=${id}`,token});
 }
+export const createPaymentIntentApi = async (data:{payment_method_types:"card",amount:number|string},token:string)=>{  
+  return await howl({link:`/provider/buy-plan-intent`,data,token, method:"post"});
+}
+
+export const buyPlanApi = async (data:{payment_intent_id?:string,subscription_id:string},token:string)=>{  
+  return await howl({link:`/provider/buy-plan-success`,method:"post",data,token});
+}
 
