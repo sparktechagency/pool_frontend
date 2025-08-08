@@ -1,12 +1,24 @@
-import React from "react";
+import { Loader2Icon } from "lucide-react";
+import React, { Suspense } from "react";
+import Details from "./details";
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const id = (await params).id;
   return (
-    <main className="my-24!">
-      <section className="h-[50dvh] w-full flex flex-col justify-center items-center">
-        <h1 className="text-3xl font-semibold">ALERT!!</h1>
-        <p>THIS IS STILL UNDER DEVELOPMENT.</p>
-      </section>
+    <main>
+      <Suspense
+        fallback={
+          <div className={`flex justify-center items-center h-24 mx-auto`}>
+            <Loader2Icon className={`animate-spin`} />
+          </div>
+        }
+      >
+        <Details id={id} />
+      </Suspense>
     </main>
   );
 }

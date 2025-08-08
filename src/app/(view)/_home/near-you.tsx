@@ -19,7 +19,7 @@ export default async function NearYou() {
 
   return (
     <section>
-      <h1 className="text-xl lg:text-3xl text-center font-semibold">
+      <h1 className="text-xl lg:text-3xl text-center font-semibold mt-12">
         Quotes Request Near you
       </h1>
       <div className="w-full mt-12! grid lg:grid-cols-3 gap-6">

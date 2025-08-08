@@ -45,6 +45,7 @@ export default function SignIn() {
     login(data, {
       onSuccess: (res: AnyType) => {
         console.log(res);
+
         if (res.token) {
           toast.success(res.message ?? "Login Success");
           try {

@@ -29,11 +29,11 @@ const bidSchema = z.object({
 export default function EditForm({
   id,
   data,
-  closeDialog, // <- Prop to close the dialog
+  closeDialog,
 }: {
   id: string | number;
   data: AnyType;
-  closeDialog: () => void; // <- Function type
+  closeDialog: () => void; 
 }) {
   const [cookies] = useCookies(["ghost"]);
   const queryClient = useQueryClient();

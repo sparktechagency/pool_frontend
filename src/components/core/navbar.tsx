@@ -45,12 +45,13 @@ export default function ResponsiveNavbar() {
   const { mutate } = useMutation({
     mutationFn: logoutApi,
     onSuccess: () => {
-      removeCookie("ghost");
+      removeCookie("ghost", { path: "/" });
       queryClient.invalidateQueries({ queryKey: ["profile"] });
-      navig.push("/");
+      setTimeout(() => {
+        navig.push("/");
+      }, 50);
     },
   });
-
   const { data, isPending }: AnyType = useQuery({
     queryKey: ["profile"],
     queryFn: () => getProfileApi(cookies.ghost),
@@ -60,7 +61,11 @@ export default function ResponsiveNavbar() {
   // if (!isPending && data) {
   //   console.log(data.data);
   // }
-
+  useEffect(() => {
+    if (!cookies.ghost) {
+      queryClient.removeQueries({ queryKey: ["profile"] });
+    }
+  }, [cookies.ghost]);
   function scroller(x: string) {
     if (x === "hiw") {
       window.scrollBy({

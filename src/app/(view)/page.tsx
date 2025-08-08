@@ -13,6 +13,8 @@ import NearYou from "./_home/near-you";
 import { Suspense } from "react";
 import { Loader2Icon } from "lucide-react";
 import ButtonCheck from "./_home/button-check";
+import TopProviders from "./_home/top-provider";
+
 export default function Home() {
   return (
     <main className="mb-8! px-2! lg:px-8!">
@@ -76,6 +78,16 @@ export default function Home() {
       <Features />
       <MadeSimple />
       <Testimonials />
+      <Suspense
+        fallback={
+          <div className={`flex justify-center items-center h-24 mx-auto`}>
+            <Loader2Icon className={`animate-spin`} />
+          </div>
+        }
+      >
+        <TopProviders />
+      </Suspense>
+
       <Suspense
         fallback={
           <div className={`flex justify-center items-center h-24 mx-auto`}>

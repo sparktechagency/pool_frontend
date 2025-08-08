@@ -19,7 +19,7 @@ export default async function ButtonCheck() {
     );
   }
   const call: AnyType = await getProfileApi(token ?? "");
-  if (call.data.role === "USER") {
+  if (call?.data?.role === "USER") {
     return (
       <Button
         className="w-full sm:w-auto lg:text-xl py-6! px-8! bg-[#003B73] hover:bg-[#002873e5]"

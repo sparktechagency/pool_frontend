@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
 import { AcceptQuoteApi } from "@/lib/api/core/core";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default function Bidder({
   data,
@@ -70,9 +71,17 @@ export default function Bidder({
           )}
         </Button>
       )}
+
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="rounded-full">Start bidding</Button>
+          <Button
+            className={cn(
+              "rounded-full",
+              data?.service_type !== "pool service" && "col-span-2"
+            )}
+          >
+            Start bidding
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
