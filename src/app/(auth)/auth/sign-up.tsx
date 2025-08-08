@@ -68,7 +68,7 @@ export default function SignUp({ as }: { as: string }) {
         toast.error(call.message ?? "Failed to Log in");
       } else {
         toast.success(call.message ?? "Successfully Logged in");
-        navig.push(`/otp?xxx=${encrypt(dataset.email, 1)}`);
+        navig.push(`/otp?xxx=${encrypt(dataset.email)}`);
       }
     } catch (error) {
       console.error(error);

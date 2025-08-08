@@ -53,7 +53,7 @@ export default function AuthForms() {
         },
         onSuccess: (x) => {
           console.log(x);
-          navig.push(`/otp?xxx=${encrypt(values.email, 1)}`);
+          navig.push(`/otp?xxx=${encrypt(values.email)}`);
         },
       });
     } catch (error) {

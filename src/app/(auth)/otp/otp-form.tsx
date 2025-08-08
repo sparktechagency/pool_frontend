@@ -37,7 +37,7 @@ export default function AuthForms() {
     },
   });
   useEffect(() => {
-    const code = decrypt(mail as string, 1);
+    const code = decrypt(mail as string);
     console.log(code);
 
     return () => {};

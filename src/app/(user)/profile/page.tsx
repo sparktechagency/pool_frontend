@@ -3,11 +3,11 @@ import React, { Suspense } from "react";
 import ProfileSec from "./profile-section";
 
 export default async function Page({
-  searchParams,
+  params,
 }: {
-  searchParams: { [uid: string]: string | string[] | undefined };
+  params: Promise<{ [uid: string]: string | string[] | undefined }>;
 }) {
-  const uid = await searchParams;
+  const uid = await params;
   console.log(uid.uid);
   return (
     <main className="my-12!">
