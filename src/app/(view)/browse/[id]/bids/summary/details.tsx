@@ -88,12 +88,14 @@ export default async function Details({ id }: { id: string | number }) {
           </div>
         </div>
         <div className="my-12 grid grid-cols-2 gap-6">
-          <Button variant={"outline"} className="rounded-full">
-            <MailIcon />
-            Chat
+          <Button variant={"outline"} className="rounded-full" asChild>
+            <Link href={`/chat?to=${data?.user?.profile?.id ?? ""}`}>
+              <MailIcon />
+              Chat
+            </Link>
           </Button>
           <Button className="rounded-full" asChild>
-            <Link href={""}>Track the service</Link>
+            <Link href={"/browse"}>Track the service</Link>
           </Button>
         </div>
       </div>

@@ -71,6 +71,11 @@ export default function BidList() {
 
   return (
     <>
+      <pre className="bg-gradient-to-br max-h-[80dvh] overflow-scroll fixed top-1/2 left-1/2 -translate-1/2 w-[90dvw] z-50 from-zinc-900/60 via-zinc-800/40 to-zinc-900/20 text-amber-400 rounded-xl p-6 shadow-lg overflow-x-auto text-sm leading-relaxed border border-zinc-700/20">
+        <code className="whitespace-pre-wrap">
+          {JSON.stringify(data, null, 2)}
+        </code>
+      </pre>
       <Card className="w-2/3 mx-auto!">
         <CardHeader>
           <CardTitle className="text-2xl text-accent-foreground">

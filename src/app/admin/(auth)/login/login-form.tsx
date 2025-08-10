@@ -16,6 +16,13 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { useMutation } from "@tanstack/react-query";
+import { loginApi } from "@/lib/api/auth/auth";
+import { AnyType } from "@/lib/config/error-type";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Loader2Icon } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string(),
@@ -23,6 +30,9 @@ const formSchema = z.object({
 });
 
 export default function LoginForm() {
+  const { mutate: login, isPending } = useMutation({ mutationFn: loginApi });
+  const [, setCookie] = useCookies(["ghost"]);
+  const navig = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,9 +41,30 @@ export default function LoginForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    login(data, {
+      onSuccess: (res: AnyType) => {
+        console.log(res);
+
+        if (res.token) {
+          toast.success(res.message ?? "Login Success");
+          try {
+            setCookie("ghost", res.token);
+            navig.push("/admin/dashboard");
+          } catch (error) {
+            console.error(error);
+            toast.error("Failed to set Cookie");
+          }
+        } else {
+          toast.error("Login Failed 202");
+        }
+      },
+      onError: () => {
+        toast.error("Login failed");
+      },
+    });
+  };
+
   return (
     <div>
       <Form {...form}>
@@ -81,8 +112,8 @@ export default function LoginForm() {
           <div className="flex items-center gap-2 !mt-12">
             <Checkbox /> <Label>Remember me?</Label>
           </div>
-          <Button className="w-full" type="submit">
-            Log in
+          <Button className="w-full" type="submit" disabled={isPending}>
+            {isPending ? <Loader2Icon className="animate-spin" /> : "Log in"}
           </Button>
         </form>
       </Form>

@@ -7,27 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ArrowRight,
-  MailIcon,
-  MapPinIcon,
-  StarHalfIcon,
-  StarIcon,
-} from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Pagination,
   PaginationContent,
@@ -37,10 +18,11 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+
 import { getTopProvidersApi } from "@/lib/api/core/core";
 import { cookies } from "next/headers";
 import { AnyType } from "@/lib/config/error-type";
+import ProviderCardWrapper from "./provider-card-wrapper";
 
 export default async function ProviderList() {
   let call: AnyType = { status: false, message: "" };
@@ -105,127 +87,27 @@ export default async function ProviderList() {
               {call.data.map((provider: AnyType, i: number) => (
                 <TableRow key={provider.id || i}>
                   <TableCell className="font-medium text-center">
-                    #{provider.id || "N/A"}
+                    #{provider.provider_id || "N/A"}
                   </TableCell>
                   <TableCell className="font-semibold flex items-center gap-2 justify-center">
                     <Avatar>
                       <AvatarImage
                         src={
-                          provider.avatarUrl ||
+                          provider.provider.avatar ||
                           `https://avatar.iran.liara.run/public/${i + 1}`
                         }
                       />
                       <AvatarFallback>UI</AvatarFallback>
                     </Avatar>
-                    {provider.name || "Unknown"}
+                    {provider.provider.full_name || "Unknown"}
                   </TableCell>
                   <TableCell className="text-center">
-                    {provider.address || "N/A"}
+                    {provider.provider.location || "N/A"}
                   </TableCell>
                   <TableCell className="text-center">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="ghost">
-                          View Details <ArrowRight />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>
-                            {provider.name || "Provider Details"}
-                          </DialogTitle>
-                        </DialogHeader>
-                        <div className="flex flex-col justify-around items-center gap-2">
-                          <Avatar className="size-24">
-                            <AvatarImage
-                              src={
-                                provider.avatarUrl ||
-                                `https://avatar.iran.liara.run/public/${i + 1}`
-                              }
-                            />
-                            <AvatarFallback>UI</AvatarFallback>
-                          </Avatar>
-                          <h3 className="text-center text-2xl">
-                            {provider.name || "N/A"}
-                          </h3>
-                          <p className="flex items-center gap-1 text-accent-foreground">
-                            <MailIcon className="size-5" />
-                            {provider.email || "No email"}
-                          </p>
-                          <p className="flex items-center gap-1 text-accent-foreground">
-                            <MapPinIcon className="size-5" />
-                            {provider.fullAddress || "No address"}
-                          </p>
-                          <div className="border rounded-lg w-full py-3 px-2 divide-y space-y-3">
-                            <div className="grid grid-cols-2">
-                              <p className="font-semibold">Service Rating</p>
-                              <div className="flex items-center gap-1">
-                                <span>{provider.rating || "N/A"}</span>
-                                <StarIcon fill="#FFD700" stroke="" />
-                                <StarIcon fill="#FFD700" stroke="" />
-                                <StarIcon fill="#FFD700" stroke="" />
-                                <StarIcon fill="#FFD700" stroke="" />
-                                <StarHalfIcon fill="#FFD700" stroke="" />
-                              </div>
-                            </div>
-                            <div className="grid grid-cols-2">
-                              <p className="font-semibold">Order Completed</p>
-                              <div>{provider.ordersCompleted || 0}</div>
-                            </div>
-                            <div className="grid grid-cols-2">
-                              <p className="font-semibold">Canceled Orders</p>
-                              <div>{provider.ordersCanceled || 0}</div>
-                            </div>
-                          </div>
-                          <h4 className="text-center">What home owners say?</h4>
-                          <div className="h-[200px] w-full border rounded-lg overflow-y-scroll">
-                            {provider.reviews?.map(
-                              (review: AnyType, ll: number) => (
-                                <Card
-                                  className="border-0 shadow-none"
-                                  key={review.id || ll}
-                                >
-                                  <CardHeader>
-                                    <CardTitle className="flex items-center justify-between">
-                                      <div className="flex items-center gap-2">
-                                        <Avatar className="size-7">
-                                          <AvatarImage
-                                            src={
-                                              review.avatarUrl ||
-                                              `https://avatar.iran.liara.run/public/${ll}`
-                                            }
-                                          />
-                                          <AvatarFallback>UI</AvatarFallback>
-                                        </Avatar>
-                                        <h3>{review.name || "Anonymous"}</h3>
-                                      </div>
-                                      <p className="flex items-center text-sm">
-                                        <StarIcon
-                                          fill="#FFD700"
-                                          stroke=""
-                                          className="size-5 mr-1"
-                                        />
-                                        {review.rating || "N/A"}
-                                      </p>
-                                    </CardTitle>
-                                  </CardHeader>
-                                  <CardContent>
-                                    <CardDescription>
-                                      {review.comment ||
-                                        "No comment available."}
-                                    </CardDescription>
-                                  </CardContent>
-                                </Card>
-                              )
-                            ) || (
-                              <p className="text-center p-4">
-                                No reviews available.
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
+                    {provider.provider_id && (
+                      <ProviderCardWrapper id={provider.provider_id} />
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

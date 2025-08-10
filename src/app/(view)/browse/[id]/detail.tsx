@@ -109,6 +109,7 @@ export default async function Details({ id }: { id: string | number }) {
         </div>
       </div>
       <Bidder data={data} point={planCall?.current_plan?.total_quotes} />
+      <Button className="w-full rounded-full">View Your Bid</Button>
       <div className="my-12">
         <h3 className="text-xl font-semibold">Payment Info</h3>
         <p>

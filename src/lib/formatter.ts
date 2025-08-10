@@ -35,5 +35,7 @@ export function decrypt(base64: string): string {
 
 
 export const serverImageBuilder = (x:string)=>{
-  return `${BASE_ENDPOINT}${x}`
+  console.log(x);
+  
+  return `${BASE_ENDPOINT}${x??""}`
 }

@@ -80,7 +80,6 @@ export const myOrdersApi = async(pending:"Pending"| "In progress"| "Completed"|"
 
 //*PROVIDER APIS:
 
-
 export const browseQuotesApi = async (token:string,page:string|number)=>{
   return await howl({link:`/provider/browse-quotes?per_page=10&page=${page}`,token});
 }

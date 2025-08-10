@@ -22,7 +22,7 @@ export default function RootLayout({
         </div>
         <div className="col-span-9 flex flex-col justify-start items-start">
           <div className="h-[64px] w-full flex flex-row justify-between items-center !pr-6">
-            {/* <h3 className="text-2xl font-bold">Hello, Rick</h3> */}
+            <h3 className="text-2xl font-bold">Hello, Admin</h3>
             <div className=""></div>
             <div className="flex items-center gap-2">
               <Button size={"icon"} variant="ghost" asChild>

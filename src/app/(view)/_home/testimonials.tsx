@@ -1,8 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Quote, Star, StarIcon } from "lucide-react";
-import Link from "next/link";
+import { Quote, Star} from "lucide-react";
 
 interface Testimonial {
   id: number;

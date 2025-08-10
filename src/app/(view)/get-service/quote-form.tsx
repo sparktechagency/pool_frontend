@@ -98,7 +98,7 @@ export default function QuoteForm() {
         formData.append(key, value.toString());
       }
     });
-    formData.append("photo_1", selectedImage as File);
+    formData.append("photos[0]", selectedImage as File);
 
     // formData.forEach((value, key) => {
     //   console.log(`${key}: ${value}`);
