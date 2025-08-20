@@ -4,12 +4,21 @@ import { Button } from "../ui/button";
 import { LogOutIcon } from "lucide-react";
 import AdminSideMenu from "./admin-side-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Image from "next/image";
 
 export default function Sidebar() {
   return (
     <div className="!p-6 h-full flex flex-col justify-between">
       <div className="">
-        <h1 className="text-2xl font-bold text-center">HomeFood</h1>
+        <h1 className="text-2xl font-bold text-center">
+          <Image
+            src={"/icon.png"}
+            height={200}
+            width={200}
+            alt="icon"
+            className="aspect-video h-18 object-contain border rounded-lg shadow-inner w-full"
+          />
+        </h1>
         <div className="" suppressHydrationWarning>
           <AdminSideMenu />
         </div>

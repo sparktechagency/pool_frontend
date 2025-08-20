@@ -33,11 +33,10 @@ export default function EditForm({
 }: {
   id: string | number;
   data: AnyType;
-  closeDialog: () => void; 
+  closeDialog: () => void;
 }) {
   const [cookies] = useCookies(["ghost"]);
   const queryClient = useQueryClient();
-  console.log(data.data.price_offered);
 
   const form = useForm<z.infer<typeof bidSchema>>({
     resolver: zodResolver(bidSchema),
@@ -55,9 +54,11 @@ export default function EditForm({
   });
 
   useEffect(() => {
-    form.setValue("price", data.data.price_offered);
-    form.setValue("outline", data.data.quote_outline);
-  }, [data.data.price_offered, data.data.quote_outline, form]);
+    if (data?.data?.price_offered) {
+      form.setValue("price", data?.data?.price_offered);
+      form.setValue("outline", data?.data?.quote_outline);
+    }
+  }, [data, form]);
 
   const onSubmit = async (data: z.infer<typeof bidSchema>) => {
     console.log("Bid Submitted:", data);

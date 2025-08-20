@@ -22,7 +22,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useQuery } from "@tanstack/react-query";
-import { myOrdersApi } from "@/lib/api/core/core";
+import { myOrdersApi, myAcceptedOrdersApi } from "@/lib/api/core/core";
 import { AnyType } from "@/lib/config/error-type";
 import { useCookies } from "react-cookie";
 
@@ -32,9 +32,15 @@ export default function OrderList() {
   >("");
   const [page, setPage] = useState(1);
   const [cookies] = useCookies(["ghost"]);
+
   const { data, isFetching }: AnyType = useQuery({
     queryKey: ["order", activeTab, page],
-    queryFn: () => myOrdersApi(activeTab, page, cookies.ghost),
+    queryFn: () => {
+      if (activeTab === "In progress" || activeTab === "Completed") {
+        return myAcceptedOrdersApi(activeTab, page, cookies.ghost);
+      }
+      return myOrdersApi("", page, cookies.ghost);
+    },
   });
 
   const quotes = data?.quotes?.data || [];
@@ -65,9 +71,6 @@ export default function OrderList() {
         <CardContent>
           <Tabs className="mb-6" defaultValue="">
             <TabsList className="bg-inherit">
-              <TabsTrigger value="" onClick={() => handleTabChange("")}>
-                All Orders
-              </TabsTrigger>
               <TabsTrigger
                 value="Pending"
                 onClick={() => handleTabChange("Pending")}

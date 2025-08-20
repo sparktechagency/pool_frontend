@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/popover";
 import { PopoverArrow } from "@radix-ui/react-popover";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sheet,
   SheetContent,
@@ -29,9 +28,15 @@ import {
 } from "@/components/ui/sheet";
 import { useCookies } from "react-cookie";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProfileApi, logoutApi } from "@/lib/api/auth/auth";
+import {
+  getProfileApi,
+  getUnreadApi,
+  getUnreadChatApi,
+  logoutApi,
+} from "@/lib/api/auth/auth";
 import { AnyType } from "@/lib/config/error-type";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import Notifs from "./notifs";
 
 export default function ResponsiveNavbar() {
   const path = usePathname();
@@ -55,6 +60,17 @@ export default function ResponsiveNavbar() {
   const { data, isPending }: AnyType = useQuery({
     queryKey: ["profile"],
     queryFn: () => getProfileApi(cookies.ghost),
+    enabled: !!cookies.ghost,
+  });
+
+  const { data: notif }: AnyType = useQuery({
+    queryKey: ["notif"],
+    queryFn: () => getUnreadApi(cookies.ghost),
+    enabled: !!cookies.ghost,
+  });
+  const { data: chat }: AnyType = useQuery({
+    queryKey: ["chat"],
+    queryFn: () => getUnreadChatApi(cookies.ghost),
     enabled: !!cookies.ghost,
   });
 
@@ -119,16 +135,33 @@ export default function ResponsiveNavbar() {
       <Button variant="ghost" onClick={() => handleScroll("fp")}>
         For Providers
       </Button>
-      <Button variant="ghost" asChild>
-        <Link href="/get-service" onClick={() => setIsOpen(false)}>
-          Get Quotes
-        </Link>
-      </Button>
-      <Button variant="ghost" asChild>
-        <Link href="/my-orders" onClick={() => setIsOpen(false)}>
-          My Orders
-        </Link>
-      </Button>
+
+      {data?.data?.role === "PROVIDER" ? (
+        <Button variant="ghost" asChild>
+          <Link href="/service" onClick={() => setIsOpen(false)}>
+            My Services
+          </Link>
+        </Button>
+      ) : (
+        <Button variant="ghost" asChild>
+          <Link href="/my-orders" onClick={() => setIsOpen(false)}>
+            My Orders
+          </Link>
+        </Button>
+      )}
+      {data?.data?.role === "PROVIDER" ? (
+        <Button variant="ghost" asChild>
+          <Link href="/earnings" onClick={() => setIsOpen(false)}>
+            Earnings
+          </Link>
+        </Button>
+      ) : (
+        <Button variant="ghost" asChild>
+          <Link href="/get-service" onClick={() => setIsOpen(false)}>
+            Get Quotes
+          </Link>
+        </Button>
+      )}
     </>
   );
 
@@ -178,54 +211,31 @@ export default function ResponsiveNavbar() {
             <PopoverTrigger asChild>
               <Button size="icon" variant="ghost" className="relative">
                 <BellIcon className="h-4 w-4 md:h-5 md:w-5" />
-                <div className="text-[10px] flex justify-center items-center top-0 right-0 absolute bg-destructive size-4 rounded-full text-background">
-                  3
-                </div>
+                {notif?.unread_count > 0 && (
+                  <div className="text-[10px] flex justify-center items-center top-0 right-0 absolute bg-destructive size-4 rounded-full text-background">
+                    {notif?.unread_count}
+                  </div>
+                )}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="lg:w-80" align="end">
+            <PopoverContent className="lg:w-[30dvw]" align="end">
               <PopoverArrow className="bg-background" />
               <h3 className="text-lg text-center font-semibold border-b pb-2!">
                 Notifications
               </h3>
-              <div className="py-4! space-y-4! max-h-96 overflow-y-auto">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div
-                    className="flex flex-row justify-between items-center gap-2"
-                    key={i}
-                  >
-                    <Avatar className="size-10 border-2 border-white shadow-lg flex-shrink-0">
-                      <AvatarImage
-                        src={`/placeholder.svg?height=40&width=40`}
-                        alt="avatar"
-                      />
-                      <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold">
-                        UI
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="h-full flex-1 flex flex-row justify-between items-center min-w-0">
-                      <h4 className="flex items-center gap-2 truncate">
-                        L.Messi
-                        <div className="size-2 rounded-full bg-destructive flex-shrink-0"></div>
-                      </h4>
-                      <div className="flex-shrink-0">
-                        <p className="text-xs text-muted-foreground">
-                          5 mins ago
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <Notifs />
             </PopoverContent>
           </Popover>
 
           <Button size="icon" variant="ghost" className="relative" asChild>
             <Link href="/chat">
               <MailIcon className="h-4 w-4 md:h-5 md:w-5" />
-              <div className="text-[10px] flex justify-center items-center top-0 right-0 absolute bg-destructive size-4 rounded-full text-background">
-                12
-              </div>
+
+              {parseInt(chat?.unread) > 0 && (
+                <div className="text-[10px] flex justify-center items-center top-0 right-0 absolute bg-destructive size-4 rounded-full text-background">
+                  {chat.unread}
+                </div>
+              )}
             </Link>
           </Button>
 

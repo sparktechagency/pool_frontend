@@ -34,8 +34,12 @@ export function decrypt(base64: string): string {
 }
 
 
-export const serverImageBuilder = (x:string)=>{
-  console.log(x);
+export const serverImageBuilder = (x: string) => { 
+  if (!x) return ''; // handle null/undefined
+
+  if (x.startsWith('https://ui-avatars.com')) {
+    return x;
+  }
   
-  return `${BASE_ENDPOINT}${x??""}`
-}
+  return `${BASE_ENDPOINT}${x}`;
+};

@@ -17,7 +17,7 @@ export default async function Page({
           </div>
         }
       >
-        <Details id={id} />
+        {id && <Details id={id} />}
       </Suspense>
     </main>
   );

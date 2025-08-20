@@ -149,7 +149,7 @@ export default function HelpSupport() {
                   className="bg-blue-900 hover:bg-blue-800 text-white !px-8 !py-2 rounded-md"
                   asChild
                 >
-                  <Link href="/chat">Start Live Chat</Link>
+                  <Link href={`/chat?id={1}`}>Start Live Chat</Link>
                 </Button>
               </CardContent>
             </Card>

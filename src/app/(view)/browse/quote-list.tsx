@@ -74,7 +74,6 @@ export default function QuoteList() {
   }
 
   const quoteData = data?.data?.data ?? [];
-
   return (
     <>
       <Card className="w-2/3 mx-auto!">

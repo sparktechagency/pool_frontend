@@ -8,13 +8,14 @@ import React from "react";
 import { serverImageBuilder } from "@/lib/formatter";
 import { CurrentAplanApi, ViewBrowsedQuoteApi } from "@/lib/api/core/core";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import Bidder from "./bidder";
+import Link from "next/link";
 
 export default async function Details({ id }: { id: string | number }) {
   const token = (await cookies()).get("ghost")?.value;
   if (!token) {
-    return notFound();
+    return redirect("/404");
   }
   const call: AnyType = await ViewBrowsedQuoteApi(id, token ?? "");
   const data = call?.data;
@@ -42,8 +43,9 @@ export default async function Details({ id }: { id: string | number }) {
             variant={"outline"}
             className="rounded-full border-0!"
             size={"sm"}
+            asChild
           >
-            See all plans
+            <Link href={"/subscription"}>See all plans</Link>
           </Button>
         </div>
       )}
@@ -109,7 +111,7 @@ export default async function Details({ id }: { id: string | number }) {
         </div>
       </div>
       <Bidder data={data} point={planCall?.current_plan?.total_quotes} />
-      <Button className="w-full rounded-full">View Your Bid</Button>
+
       <div className="my-12">
         <h3 className="text-xl font-semibold">Payment Info</h3>
         <p>

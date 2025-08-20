@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
 import BrandTable from "./brand-table";
-import { Button } from "@/components/ui/button";
+import { Loader2Icon } from "lucide-react";
 
 export default function Page() {
   return (
@@ -10,14 +10,15 @@ export default function Page() {
       </div>
       <div className="w-full flex flex-row justify-between items-center"></div>
       <div className="!mt-0">
-        <BrandTable />
-      </div>
-      <div className="border-t mt-12! flex flex-row justify-between items-center pt-6! text-sm font-semibold">
-        <p>Page 1 of 10</p>
-        <div className="flex items-center gap-4">
-          <Button variant="outline">Previous</Button>
-          <Button variant="outline">Next</Button>
-        </div>
+        <Suspense
+          fallback={
+            <div className={`flex justify-center items-center h-24 mx-auto`}>
+              <Loader2Icon className={`animate-spin`} />
+            </div>
+          }
+        >
+          <BrandTable />
+        </Suspense>
       </div>
     </div>
   );

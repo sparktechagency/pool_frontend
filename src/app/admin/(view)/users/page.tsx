@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
 import BrandTable from "./brand-table";
+import { Loader2Icon } from "lucide-react";
 
 export default function Page() {
   return (
@@ -13,7 +14,15 @@ export default function Page() {
       </div>
 
       <div className="!mt-12">
-        <BrandTable />
+        <Suspense
+          fallback={
+            <div className={`flex justify-center items-center h-24 mx-auto`}>
+              <Loader2Icon className={`animate-spin`} />
+            </div>
+          }
+        >
+          <BrandTable />
+        </Suspense>
       </div>
     </div>
   );

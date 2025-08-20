@@ -10,6 +10,7 @@ import { CurrentAplanApi, ViewBrowsedQuoteApi } from "@/lib/api/core/core";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export default async function Details({ id }: { id: string | number }) {
   const token = (await cookies()).get("ghost")?.value;
@@ -24,12 +25,13 @@ export default async function Details({ id }: { id: string | number }) {
       <Loader2Icon className={`animate-spin`} />
     </div>;
   }
+  console.log(planCall);
 
   return (
     <div className="w-full lg:px-[7%] grid grid-cols-2 gap-6 mx-auto">
       <div className="col-span-2">
         <h1 className="text-3xl text-center mt-6">Order Details</h1>
-        {planCall?.current_plan && (
+        {planCall?.current_plan ? (
           <div className="rounded-lg bg-green-500/40 p-6 flex flex-row justify-between items-center mt-6 w-1/2 mx-auto!">
             <div className="flex flex-col">
               <h4 className="font-bold">{planCall?.current_plan?.plan_name}</h4>
@@ -47,7 +49,33 @@ export default async function Details({ id }: { id: string | number }) {
               <Link href={"/subscription"}>See all plans</Link>
             </Button>
           </div>
+        ) : (
+          <div className="rounded-lg bg-red-500/40 border-2 border-red-500 p-6 flex flex-row justify-between items-center mt-6 w-1/2 mx-auto!">
+            <div className="flex flex-col">
+              <h4 className="font-bold">{planCall?.message}</h4>
+            </div>
+            <Button
+              variant={"outline"}
+              className="rounded-full border-0!"
+              size={"sm"}
+              asChild
+            >
+              <Link href={"/subscription"}>See all plans</Link>
+            </Button>
+          </div>
         )}
+        <div
+          className={cn(
+            "py-2 px-6 w-fit mx-auto my-12 rounded-lg flex justify-center items-center font-semibold text-xl",
+            data.status === "Pending"
+              ? "bg-amber-200"
+              : data.status === "In progress"
+              ? "bg-blue-200"
+              : "bg-green-200"
+          )}
+        >
+          {data.status}
+        </div>
         <p className="font-semibold text-center items-center mx-auto w-fit flex justify-center gap-2 mt-6 text-muted-foreground text-sm">
           <InfoIcon className="size-5" />
           After accept by home owners you can start the service.
@@ -89,13 +117,13 @@ export default async function Details({ id }: { id: string | number }) {
         </div>
         <div className="my-12 grid grid-cols-2 gap-6">
           <Button variant={"outline"} className="rounded-full" asChild>
-            <Link href={`/chat?to=${data?.user?.profile?.id ?? ""}`}>
+            <Link href={`/chat?id=${data?.user?.profile?.id ?? ""}`}>
               <MailIcon />
               Chat
             </Link>
           </Button>
           <Button className="rounded-full" asChild>
-            <Link href={"/browse"}>Track the service</Link>
+            <Link href={"/service"}>Track the service</Link>
           </Button>
         </div>
       </div>

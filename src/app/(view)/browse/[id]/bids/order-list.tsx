@@ -103,8 +103,8 @@ export default function OrderList() {
                     Loading...
                   </TableCell>
                 </TableRow>
-              ) : quotes.length > 0 ? (
-                quotes.map((quote: AnyType) => (
+              ) : quotes?.length > 0 ? (
+                quotes?.map((quote: AnyType) => (
                   <TableRow key={quote.id}>
                     <TableCell>0100101</TableCell>
                   </TableRow>

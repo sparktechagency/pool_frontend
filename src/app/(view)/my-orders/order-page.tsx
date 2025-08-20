@@ -14,7 +14,6 @@ export default async function OrderPage() {
     );
   }
   const call: AnyType = await getProfileApi(token);
-  console.log(call);
 
   if (call?.data?.role !== "USER") {
     return (

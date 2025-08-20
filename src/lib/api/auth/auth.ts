@@ -45,7 +45,34 @@ export const editAddressApi  = async(data:EditAddressPayload,token:string) => {
 export const getProfileApi = async(token:string) => {
   return await howl({link:"/get-profile",token})
 };
+export const getUserProfileApi = async(id:string,token:string) => {
+  return await howl({link:`/get-profile?user_id=${id}`,token})
+};
 
 export const logoutApi  = async(token:string) => {
   return await howl({link:"/logout",method:"post",token})
+};
+//notif
+export const getNotificationApi = async(token:string) => {
+  return await howl({link:"/get-notifications",token})
+};
+export const readApi = async(id:string,token:string) => {
+  return await howl({link:`/read?notification_id=${id}`,method:"patch",token})
+};
+export const readAllApi = async(token:string) => {
+  return await howl({link:"/read-all",method:"patch",token})
+};
+export const getUnreadApi = async(token:string) => {
+  return await howl({link:"/notification-status",token})
+};
+export const getUnreadChatApi = async(token:string) => {
+  return await howl({link:"/unread-count",token})
+};
+
+//chat
+export const getMessage = async(id:string,token:string) => {
+  return await howl({link:`/get-messages?receiver_id=${id}`,token})
+};
+export const sendMessage = async(data:{receiver_id:string|number,message:string},token:string) => {
+  return await howl({link:`/store-message`,token,method:"post",data})
 };
