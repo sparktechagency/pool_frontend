@@ -56,7 +56,7 @@ export default function SignIn() {
             toast.error("Failed to set Cookie");
           }
         } else {
-          toast.error(res.message ?? "Login Failed 202");
+          toast.error(res.message.password ?? "Invalid login attempt");
         }
       },
       onError: (error: AnyType) => {
