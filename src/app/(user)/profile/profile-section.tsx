@@ -34,7 +34,7 @@ export default async function ProfileSec() {
         </span>{" "}
         .
       </p>
-      <div className="w-full grid grid-cols-3 gap-6">
+      <div className="w-full grid lg:grid-cols-3 gap-6">
         <Card>
           <CardHeader className="border-b">
             <CardTitle>ACCOUNT INFO</CardTitle>
