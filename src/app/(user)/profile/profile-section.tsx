@@ -1,12 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProfileApi } from "@/lib/api/auth/auth";
-import { PackageIcon, ReceiptTextIcon, RocketIcon } from "lucide-react";
+import {
+  BanknoteX,
+  PackageIcon,
+  ReceiptTextIcon,
+  RocketIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { AnyType } from "@/lib/config/error-type";
+import { serverImageBuilder } from "@/lib/formatter";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import ConnectStripe from "../connect-stripe";
 
 export default async function ProfileSec() {
   const token = (await cookies()).get("ghost")?.value;
@@ -34,6 +43,28 @@ export default async function ProfileSec() {
         </span>{" "}
         .
       </p>
+      {user.role === "PROVIDER" && !user.stripe_account_id && (
+        <div className="w-full">
+          <Alert variant="destructive" className="flex flex-col gap-3">
+            <div className="flex items-start gap-2">
+              <BanknoteX className="h-5 w-5 mt-0.5" />
+              <div>
+                <AlertTitle className="font-semibold">
+                  Payment Disabled
+                </AlertTitle>
+                <AlertDescription className="text-sm text-muted-foreground">
+                  You cannot accept payments until you connect your Stripe
+                  account.
+                </AlertDescription>
+              </div>
+            </div>
+
+            <div className="flex justify-end w-full">
+              <ConnectStripe />
+            </div>
+          </Alert>
+        </div>
+      )}
       <div className="w-full grid lg:grid-cols-3 gap-6">
         <Card>
           <CardHeader className="border-b">
@@ -42,7 +73,7 @@ export default async function ProfileSec() {
           <CardContent>
             <div className="flex gap-6">
               <Avatar className="!size-18">
-                <AvatarImage src={user.avatar} />
+                <AvatarImage src={serverImageBuilder(user.avatar)} />
                 <AvatarFallback>UI</AvatarFallback>
               </Avatar>
               <div className="">
@@ -75,7 +106,7 @@ export default async function ProfileSec() {
           <CardContent>
             <div className="flex gap-6">
               <div className="">
-                <h4 className="text-xl font-bold">Kelvin</h4>
+                <h4 className="text-xl font-bold">{user.full_name}</h4>
                 <p className="text-muted-foreground">{user.address ?? "N/A"}</p>
               </div>
             </div>

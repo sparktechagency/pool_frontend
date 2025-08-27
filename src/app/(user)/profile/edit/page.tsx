@@ -111,7 +111,7 @@ export default function Page() {
                 defaultValues={{
                   full_name: data?.data?.full_name,
                   email: data?.data?.email,
-                  bio: data?.data?.bio ?? "",
+                  location: data?.data?.location ?? "",
                 }}
               />
               <Separator className="mt-6" />

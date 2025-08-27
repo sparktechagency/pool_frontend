@@ -11,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
@@ -22,7 +21,10 @@ import { AnyType } from "@/lib/config/error-type";
 const profileSchema = z.object({
   full_name: z.string().min(2, "Full name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
-  bio: z.string().max(500, "Bio must be less than 500 characters").optional(),
+  location: z
+    .string()
+    .max(500, "Bio must be less than 500 characters")
+    .optional(),
 });
 
 export default function EditProfileForm({
@@ -102,12 +104,12 @@ export default function EditProfileForm({
 
         <FormField
           control={form.control}
-          name="bio"
+          name="location"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio</FormLabel>
+              <FormLabel>Location</FormLabel>
               <FormControl>
-                <Textarea className="min-h-[160px] bg-background" {...field} />
+                <Input className="bg-background" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
