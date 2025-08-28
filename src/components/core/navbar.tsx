@@ -37,7 +37,6 @@ import {
 import { AnyType } from "@/lib/config/error-type";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import Notifs from "./notifs";
-
 export default function ResponsiveNavbar() {
   const path = usePathname();
   const navig = useRouter();
@@ -264,6 +263,7 @@ export default function ResponsiveNavbar() {
                           <TooltipContent>{data?.data?.status}</TooltipContent>
                         </Tooltip>
                       </h2>
+
                       <p className="text-muted-foreground text-sm">
                         {data?.data?.email}
                       </p>

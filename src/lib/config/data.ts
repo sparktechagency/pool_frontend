@@ -3,3 +3,4 @@
 
 export const BASE_ENDPOINT = "http://10.10.10.65:8003";
 export const BASE_API_ENDPOINT = "http://10.10.10.65:8003/api";
+export const CLIENT_ID = '571918386783-vq0bv2o3at0uvgpsv0k8j8t558fnqhl8.apps.googleusercontent.com'

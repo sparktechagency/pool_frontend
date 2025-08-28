@@ -126,7 +126,8 @@ export default async function howl<T = unknown>({
   };
 
   const response = await fetch(BASE_API_ENDPOINT + link, requestConfig);
-
+  console.log(response);
+  
   const contentType = response.headers.get("Content-Type") || "application/json";
   const text = await response.text();
 

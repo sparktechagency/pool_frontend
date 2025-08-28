@@ -36,6 +36,7 @@ export default function Page() {
           err.data.message ??
           "Failed to update subscription ammount"
       );
+      console.log(err);
     },
     onSuccess: (data: AnyType) => {
       refetch();
@@ -54,6 +55,23 @@ export default function Page() {
   }, [data, selectedTab]);
 
   if (isLoading) return <p>Loading subscriptions...</p>;
+  const handleUpdate = () => {
+    const currentSub = data.subscriptions[parseInt(selectedTab) - 1];
+
+    if (
+      quotesInput === currentSub.number_of_quotes &&
+      quotePrice === currentSub.price
+    ) {
+      toast.info("No changes detected");
+      return; // don't send mutation
+    }
+
+    mutation.mutate({
+      number_of_quotes: quotesInput,
+      price: quotePrice,
+      _method: "PUT",
+    });
+  };
 
   return (
     <div className="!pb-6 space-y-3">
@@ -83,6 +101,7 @@ export default function Page() {
         type="number"
         step="0.01" // allows decimal input
         placeholder="Price"
+        disabled={selectedTab === "1"}
         value={quotePrice}
         onChange={(e) =>
           setQuotePrice(e.target.value === "" ? 0 : parseFloat(e.target.value))
@@ -90,18 +109,7 @@ export default function Page() {
       />
 
       <div className="flex justify-center items-center mt-12">
-        <Button
-          size="lg"
-          onClick={() => {
-            if (typeof quotesInput === "number")
-              mutation.mutate({
-                number_of_quotes: quotesInput,
-                price: quotePrice,
-                _method: "PUT",
-              });
-          }}
-          disabled={mutation.isLoading}
-        >
+        <Button size="lg" onClick={handleUpdate} disabled={mutation.isLoading}>
           {mutation.isLoading ? "Updating..." : "Update"}
         </Button>
       </div>

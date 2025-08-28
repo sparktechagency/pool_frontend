@@ -62,6 +62,7 @@ export default function Pending() {
   }
 
   const quoteData = data?.data?.data ?? [];
+  console.log(data);
 
   return (
     <>
