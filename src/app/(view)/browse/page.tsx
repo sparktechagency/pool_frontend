@@ -3,7 +3,7 @@ import Bread from "@/components/core/bread";
 import React, { Suspense } from "react";
 import QuoteList from "./quote-list";
 import { Loader2Icon } from "lucide-react";
-
+//
 export default function Page() {
   return (
     <>
