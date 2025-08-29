@@ -69,7 +69,7 @@ export default function OrderList() {
     );
   }
   if (!myBidPending) {
-    console.log(myBidData);
+    // console.log(myBidData);
   }
   const quotes = data?.data?.data;
   return (

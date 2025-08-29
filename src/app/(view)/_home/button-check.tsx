@@ -9,13 +9,13 @@ import React from "react";
 
 export default async function ButtonCheck() {
   const token = (await cookies()).get("ghost")?.value;
-  console.log(token);
+  // console.log(token);
 
   let href = "/browse";
   if (token) {
     try {
       const { data }: AnyType = await getProfileApi(token);
-      console.log(data);
+      // console.log(data);
 
       if (data?.role === "USER") href = "/get-service";
     } catch {}

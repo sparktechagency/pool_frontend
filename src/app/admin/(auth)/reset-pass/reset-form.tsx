@@ -41,8 +41,8 @@ export default function ResetForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Submitted data:", values);
+  function onSubmit() {
+
     // implement password reset logic here
 
     navig.push("/admin/dashboard");

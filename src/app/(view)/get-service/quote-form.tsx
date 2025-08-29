@@ -121,7 +121,7 @@ export default function QuoteForm() {
       }
 
       toast.success(data.message ?? "Quote created successfully!");
-      console.log(data);
+      // console.log(data);
       reset();
       navig.push("/my-orders");
     } catch (error: any) {
@@ -133,8 +133,8 @@ export default function QuoteForm() {
     if (file) {
       setSelectedImage(file);
       setPreviewUrl(URL.createObjectURL(file));
-      console.log("FILE");
-      console.log(file);
+      // console.log("FILE");
+      // console.log(file);
     }
   };
 

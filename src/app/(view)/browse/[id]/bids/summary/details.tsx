@@ -25,7 +25,7 @@ export default async function Details({ id }: { id: string | number }) {
       <Loader2Icon className={`animate-spin`} />
     </div>;
   }
-  console.log(planCall);
+  // console.log(planCall);
 
   return (
     <div className="w-full lg:px-[7%] grid grid-cols-2 gap-6 mx-auto">

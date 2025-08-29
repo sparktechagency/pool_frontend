@@ -15,7 +15,7 @@ export default function AuthForms() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Sign in submitted");
+    // console.log("Sign in submitted");
   };
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center !p-4">

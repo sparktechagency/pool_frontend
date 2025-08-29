@@ -28,6 +28,8 @@ export default function Page() {
     mutationFn: (newQuotes) => {
       if (!data) return Promise.reject("No data");
       const subscriptionId = data.subscriptions[parseInt(selectedTab) - 1].id;
+
+
       return updateSubscription(subscriptionId, cookies.ghost, newQuotes);
     },
     onError: (err: AnyType) => {
@@ -36,7 +38,7 @@ export default function Page() {
           err.data.message ??
           "Failed to update subscription ammount"
       );
-      console.log(err);
+
     },
     onSuccess: (data: AnyType) => {
       refetch();
@@ -67,8 +69,8 @@ export default function Page() {
     }
 
     mutation.mutate({
-      number_of_quotes: quotesInput,
-      price: quotePrice,
+      number_of_quotes: String(quotesInput) ?? 0,
+      price: quotePrice ?? 0,
       _method: "PUT",
     });
   };

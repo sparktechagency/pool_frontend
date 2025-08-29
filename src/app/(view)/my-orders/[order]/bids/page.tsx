@@ -9,7 +9,7 @@ export default async function Page({
   params: Promise<{ order: string }>;
 }) {
   const order = (await params).order;
-  console.log(order);
+  // console.log(order);
 
   return (
     <>

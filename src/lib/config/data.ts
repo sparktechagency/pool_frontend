@@ -1,6 +1,5 @@
 // export const BASE_ENDPOINT = "http://103.186.20.110:8080";
 // export const BASE_API_ENDPOINT = "http://103.186.20.110:8080/api";
 
-export const BASE_ENDPOINT = "http://10.10.10.65:8003";
-export const BASE_API_ENDPOINT = "http://10.10.10.65:8003/api";
-export const CLIENT_ID = '571918386783-vq0bv2o3at0uvgpsv0k8j8t558fnqhl8.apps.googleusercontent.com'
+export const BASE_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_URL!;
+export const BASE_API_ENDPOINT = `${process.env.NEXT_PUBLIC_SERVER_URL!}/api`;

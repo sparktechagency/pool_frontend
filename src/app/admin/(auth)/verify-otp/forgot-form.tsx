@@ -28,8 +28,7 @@ export default function OtpForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  function onSubmit() {
     navig.push("/admin/reset-pass");
   }
   return (

@@ -44,7 +44,7 @@ export default function EditProfileForm({
   });
 
   async function onSubmit(values: z.infer<typeof profileSchema>) {
-    console.log("Profile Updated:", values);
+    // console.log("Profile Updated:", values);
 
     try {
       const finalizer = {

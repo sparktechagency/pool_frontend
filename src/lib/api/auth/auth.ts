@@ -76,3 +76,12 @@ export const getMessage = async(id:string,token:string) => {
 export const sendMessage = async(data:{receiver_id:string|number,message:string},token:string) => {
   return await howl({link:`/store-message`,token,method:"post",data})
 };
+//migrate
+
+export const migrateApi  = async(data:{
+  google_id:string
+email:string
+full_name:string
+}) => {
+  return await howl({link:"/social-login",method:"post",data})
+};

@@ -37,16 +37,16 @@ export default function Page() {
         },
         body: formData,
       });
-      console.log(response);
+      // console.log(response);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to update Avatar");
       }
 
       toast.success(data.message ?? "Successfully updated Avatar");
-      console.log(data);
+      // console.log(data);
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     } catch (error: AnyType) {
       console.error(error);

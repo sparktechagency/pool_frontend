@@ -7,9 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { decrypt } from "@/lib/formatter";
 // import { decrypt } from "@/lib/formatter";
 
-const stripePromise = loadStripe(
-  "pk_test_51R5Sq0FGWJUVo7kIX2G4T8H280xmqBIS2nehzSwNoze3xD5BG65vbSHXn5cQRXsKBGawvsTupOjcjdFlNAyVfrUx002p9ic2SB"
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_SPTRIPE_KEY!);
 
 export default function Page() {
   const navig = useRouter();

@@ -2,6 +2,7 @@ import Footer from "@/components/core/footer";
 import Navbar from "@/components/core/navbar";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import Wrapper from "./wrapper";
 
 export default async function Layout({
   children,
@@ -14,9 +15,11 @@ export default async function Layout({
   }
   return (
     <>
-      <Navbar />
-      {children}
-      <Footer />
+      <Wrapper>
+        <Navbar />
+        {children}
+        <Footer />
+      </Wrapper>
     </>
   );
 }

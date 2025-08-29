@@ -12,7 +12,7 @@ export default function Policy() {
   useEffect(() => {
     const fetchData = async () => {
       const call: AnyType = await getPageApi("tnc");
-      console.log(call);
+
 
       if (!call.status) {
         setError(call.message ?? "Privacy policy data not found");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   PaymentElement,
   useStripe,
@@ -28,9 +28,6 @@ export default function PaymentForm({
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    console.log(id);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -26,7 +26,7 @@ export default function Page() {
         if (!call.status) {
           toast.error(call.message ?? "Something went wrong");
         } else {
-          console.log(call.data.content);
+
           setText(call.data.content);
         }
       } catch (error) {

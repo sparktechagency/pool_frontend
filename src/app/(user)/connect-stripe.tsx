@@ -35,7 +35,7 @@ export default function ConnectStripe() {
       return res.json();
     },
     onSuccess: (data: any) => {
-      console.log(data);
+      // console.log(data);
       toast.success("You will be redirected to stripe");
       navig.push(data.onboarding_url);
     },

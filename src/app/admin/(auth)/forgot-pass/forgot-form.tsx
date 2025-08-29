@@ -28,8 +28,8 @@ export default function ForgotForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  function onSubmit() {
+
     navig.push("/admin/verify-otp");
   }
   return (

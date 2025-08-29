@@ -54,7 +54,7 @@ export default async function Details({
     return <div>{call.message ?? "Failed to fetch data from server"}</div>;
   }
   const quote = quoteCall.data;
-  console.log(quoteCall);
+  // console.log(quoteCall);
 
   return (
     <section className="w-10/11 mx-auto! my-12! grid grid-cols-3 gap-6">

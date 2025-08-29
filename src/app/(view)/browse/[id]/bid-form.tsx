@@ -50,7 +50,7 @@ export default function BidForm({
   });
 
   const onSubmit = async (data: z.infer<typeof bidSchema>) => {
-    console.log("Bid Submitted:", data);
+    // console.log("Bid Submitted:", data);
 
     try {
       const finalizer = {

@@ -45,14 +45,14 @@ export default function AuthForms() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("Form Submitted:", values);
+    // console.log("Form Submitted:", values);
     try {
       mutate(values, {
-        onError: (x) => {
-          console.log(x);
+        onError: () => {
+          // console.log(x);
         },
-        onSuccess: (x) => {
-          console.log(x);
+        onSuccess: () => {
+          // console.log(x);
           navig.push(`/otp?xxx=${encrypt(values.email)}`);
         },
       });

@@ -62,7 +62,6 @@ export default function ProfUpdateForm() {
 
   function submitter(values: z.infer<typeof formSchema>) {
     const payload = { ...values, _method: "PATCH" };
-    console.log(payload);
     mutate(payload, {
       onError: (err: AnyType) => {
         toast.error(

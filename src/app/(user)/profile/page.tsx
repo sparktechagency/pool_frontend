@@ -2,13 +2,7 @@ import { Loader2Icon } from "lucide-react";
 import React, { Suspense } from "react";
 import ProfileSec from "./profile-section";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ [uid: string]: string | string[] | undefined }>;
-}) {
-  const uid = await params;
-  console.log(uid.uid);
+export default async function Page() {
   return (
     <main className="my-12!">
       <Suspense

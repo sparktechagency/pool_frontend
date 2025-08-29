@@ -44,7 +44,7 @@ export default function LoginForm() {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     login(data, {
       onSuccess: (res: AnyType) => {
-        console.log(res);
+
 
         if (res.token) {
           toast.success(res.message ?? "Login Success");

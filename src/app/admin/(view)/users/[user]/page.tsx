@@ -9,7 +9,7 @@ export default async function Page({
   params: Promise<{ user: string }>;
 }) {
   const { user } = await params;
-  console.log(user);
+
 
   return (
     <div className="space-y-6">

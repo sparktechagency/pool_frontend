@@ -25,7 +25,6 @@ export default async function User({ user }: { user: string }) {
       </div>
     );
   }
-  console.log(data);
   const profile = data?.user;
   return (
     <>

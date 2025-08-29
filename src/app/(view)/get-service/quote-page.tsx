@@ -14,7 +14,7 @@ export default async function QuotePage() {
     );
   }
   const call: AnyType = await getProfileApi(token);
-  console.log(call);
+  // console.log(call);
 
   if (call?.data?.role !== "USER") {
     return (

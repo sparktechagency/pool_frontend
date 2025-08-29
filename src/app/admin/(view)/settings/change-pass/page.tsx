@@ -71,7 +71,6 @@ export default function PasswordChangeForm() {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Handle successful password change
-      console.log("Password changed successfully");
       router.push("/settings?success=password-changed");
     } catch {
       setErrors({ submit: "Failed to change password. Please try again." });

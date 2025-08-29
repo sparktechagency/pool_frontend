@@ -53,7 +53,7 @@ export default function Subscriber({
           setLoading(false);
         },
         onSuccess: (data: AnyType) => {
-          console.log(data);
+          // console.log(data);
           if (data.message.includes("You current plan.")) {
             toast.error("You already have an active plan");
           }
