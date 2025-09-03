@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { getCategoryListApi } from "@/lib/api/admin/admin";
+// import { getCategoryListApi } from "@/lib/api/admin/admin";
 export default async function MadeSimple() {
   // const token =
-  const call = await getCategoryListApi();
-  console.log(call);
+  // const call = await getCategoryListApi();
+  // console.log(call);
 
   return (
     <section className=" text-center mt-12! space-y-3!">

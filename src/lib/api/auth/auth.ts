@@ -2,7 +2,7 @@ import howl from "@/lib/howl";
 export const loginApi = async (data: {
   email: string;
   password: string;
-  role: string;
+  role?: string;
 }) => {
   return await howl({ link: "/login", method: "post", data });
 };
