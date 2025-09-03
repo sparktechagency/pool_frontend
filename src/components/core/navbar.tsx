@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  BellIcon,
-  Clock2Icon,
-  MailIcon,
-  MapPin,
-  User2Icon,
-  Menu,
-} from "lucide-react";
+import { BellIcon, MailIcon, User2Icon, Menu } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -166,7 +159,7 @@ export default function ResponsiveNavbar() {
 
   return (
     <nav className="">
-      <div className="py-2! w-full bg-blue-100 px-4! md:px-8">
+      {/* <div className="py-2! w-full bg-blue-100 px-4! md:px-8">
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-2 lg:gap-0">
           <div className="flex gap-1 text-xs md:text-sm items-center justify-center lg:justify-start">
             <MapPin
@@ -188,7 +181,7 @@ export default function ResponsiveNavbar() {
             <span className="truncate">info@poolvalet.com</span>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="py-4! px-4! md:px-8! flex flex-row justify-between items-center">
         <div className="flex-shrink-0">

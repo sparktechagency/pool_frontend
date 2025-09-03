@@ -21,7 +21,7 @@ import { loginApi } from "@/lib/api/auth/auth";
 import { toast } from "sonner";
 import { AnyType } from "@/lib/config/error-type";
 import { useCookies } from "react-cookie";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { signIn } from "next-auth/react";
 import Image from "next/image";
@@ -45,29 +45,30 @@ export default function SignIn() {
       password: "",
     },
   });
-
+  const as = useSearchParams().get("as");
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    login(data, {
-      onSuccess: (res: AnyType) => {
-        // console.log(res);
-
-        if (res.token) {
-          toast.success(res.message ?? "Login Success");
-          try {
-            setCookie("ghost", res.token);
-            navig.push("/");
-          } catch (error) {
-            console.error(error);
-            toast.error("Failed to set Cookie");
+    login(
+      { ...data, role: as?.toUpperCase() ?? "USER" },
+      {
+        onSuccess: (res: AnyType) => {
+          if (res.token) {
+            toast.success(res.message ?? "Login Success");
+            try {
+              setCookie("ghost", res.token);
+              navig.push("/");
+            } catch (error) {
+              console.error(error);
+              toast.error("Failed to set Cookie");
+            }
+          } else {
+            toast.error(res.message.password ?? "Invalid login attempt");
           }
-        } else {
-          toast.error(res.message.password ?? "Invalid login attempt");
-        }
-      },
-      onError: (error: AnyType) => {
-        toast.error(error.data.message ?? "Login failed");
-      },
-    });
+        },
+        onError: (error: AnyType) => {
+          toast.error(error.data.message ?? "Login failed");
+        },
+      }
+    );
   };
 
   return (

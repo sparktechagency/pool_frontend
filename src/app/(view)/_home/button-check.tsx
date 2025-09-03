@@ -26,9 +26,7 @@ export default async function ButtonCheck() {
       className="w-full sm:w-auto lg:text-xl py-6! px-8! bg-[#003B73] hover:bg-[#002873e5]"
       asChild
     >
-      <Link href={href}>
-        {href === "/get-service" ? "Get Quotes" : "Browse Quotes"}
-      </Link>
+      <Link href={href}>Get Quotes</Link>
     </Button>
   );
 }
