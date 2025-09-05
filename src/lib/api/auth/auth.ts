@@ -4,7 +4,7 @@ export const loginApi = async (data: {
   password: string;
   role?: string;
 }) => {
-  return await howl({ link: "/login", method: "post", data });
+  return await howl({ link: "/login?without_otp=true", method: "post", data });
 };
 
 export const verifyOtpApi = async (data: { otp: string }) => {

@@ -20,9 +20,9 @@ import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import howl from "@/lib/howl";
 import { useRouter } from "next/navigation";
-import { encrypt } from "@/lib/formatter";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
+import { useCookies } from "react-cookie";
 const signUpSchema = z
   .object({
     name: z.string().min(1, "Name is required"),
@@ -39,6 +39,7 @@ const signUpSchema = z
   });
 
 export default function SignUp({ as }: { as: string }) {
+  const [, setCookie] = useCookies(["ghost"]);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navig = useRouter();
@@ -62,15 +63,21 @@ export default function SignUp({ as }: { as: string }) {
         password: dataset.password,
         password_confirmation: dataset.confirmPassword,
       };
-      const call: any = await howl({ link: "/register", method: "post", data });
+      const call: any = await howl({
+        link: "/register?without_otp=true",
+        method: "post",
+        data,
+      });
       // console.log(call);
 
       if (!call.status) {
         toast.error(call.message ?? "Failed to Log in");
       } else {
         toast.success(call.message ?? "Successfully Logged in");
-        navig.push(`/otp?xxx=${encrypt(dataset.email)}`);
-        // navig.push(as === "user" ? "/get-service" : "/browse");
+        console.log(call);
+        setCookie("ghost", call.access_token);
+        // navig.push(`/otp?xxx=${encrypt(dataset.email)}`);
+        navig.push(as === "user" ? "/get-service" : "/browse");
       }
     } catch (error) {
       console.error(error);
