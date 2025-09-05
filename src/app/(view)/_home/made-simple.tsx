@@ -5,12 +5,16 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { getCategoryListApi } from "@/lib/api/admin/admin";
+import { AnyType } from "@/lib/config/error-type";
+import { serverImageBuilder } from "@/lib/formatter";
 // import { getCategoryListApi } from "@/lib/api/admin/admin";
 export default async function MadeSimple() {
-  // const token =
-  // const call = await getCategoryListApi();
-  // console.log(call);
-
+  const call: AnyType = await getCategoryListApi();
+  console.log(call.data);
+  // if (!call.data) {
+  //   return
+  // }
   return (
     <section className=" text-center mt-12! space-y-3!">
       <h4 className="text-accent-foreground font-semibold">
@@ -22,39 +26,77 @@ export default async function MadeSimple() {
       </h4>
       <div className="grid lg:grid-cols-2 gap-6 w-full mt-12!">
         <div className="flex flex-col justify-between h-full gap-6 order-2 lg:order-1">
-          {list.map((x, i) => (
-            <div
-              key={i}
-              className="flex flex-col lg:flex-row justify-between items-start border rounded-r-lg flex-1 p-3! rounded-lg bg-gradient-to-r from-[#33628F] to-[#8AA5BF] hover:from-[#224363] hover:to-[#33628F] gap-6 transition-colors"
-            >
-              <div className="">
-                <div className="rounded-full size-12 border bg-background flex justify-center items-center">
-                  <Image
-                    src={x.icon}
-                    height={64}
-                    width={64}
-                    className="size-6"
-                    alt="ico"
-                  />
+          {call.data
+            ? call.data.slice(0, 7).map((x: AnyType) => (
+                <div
+                  key={x.id}
+                  className="flex flex-col lg:flex-row justify-between items-start border rounded-r-lg flex-1 p-3! rounded-lg bg-gradient-to-r from-[#33628F] to-[#8AA5BF] hover:from-[#224363] hover:to-[#33628F] gap-6 transition-colors"
+                >
+                  <div className="">
+                    <div className="rounded-full size-12 border bg-background flex justify-center items-center">
+                      <Image
+                        src={
+                          x.icon
+                            ? serverImageBuilder(x.icon)
+                            : "https://placehold.co/50x50"
+                        }
+                        height={64}
+                        width={64}
+                        className="size-6"
+                        alt="ico"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-start text-2xl text-background">
+                      {x.name}
+                    </h4>
+                    {/* <p className="text-start font-extralight text-background">
+                      {x.desc}
+                    </p> */}
+                  </div>
+                  <div className="flex justify-end items-end h-full">
+                    <Button variant="ghost" className="text-background" asChild>
+                      <Link href="/get-service">
+                        Learn more <ArrowRight />
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1">
-                <h4 className="text-start text-2xl text-background">
-                  {x.title}
-                </h4>
-                <p className="text-start font-extralight text-background">
-                  {x.desc}
-                </p>
-              </div>
-              <div className="flex justify-end items-end h-full">
-                <Button variant="ghost" className="text-background" asChild>
-                  <Link href="/get-service">
-                    Learn more <ArrowRight />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          ))}
+              ))
+            : list.map((x, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col lg:flex-row justify-between items-start border rounded-r-lg flex-1 p-3! rounded-lg bg-gradient-to-r from-[#33628F] to-[#8AA5BF] hover:from-[#224363] hover:to-[#33628F] gap-6 transition-colors"
+                >
+                  <div className="">
+                    <div className="rounded-full size-12 border bg-background flex justify-center items-center">
+                      <Image
+                        src={x.icon}
+                        height={64}
+                        width={64}
+                        className="size-6"
+                        alt="ico"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-start text-2xl text-background">
+                      {x.title}
+                    </h4>
+                    <p className="text-start font-extralight text-background">
+                      {x.desc}
+                    </p>
+                  </div>
+                  <div className="flex justify-end items-end h-full">
+                    <Button variant="ghost" className="text-background" asChild>
+                      <Link href="/get-service">
+                        Learn more <ArrowRight />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              ))}
         </div>
         <Suspense fallback={<Skeleton className="w-full aspect-square" />}>
           <video

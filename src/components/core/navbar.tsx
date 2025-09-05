@@ -1,6 +1,6 @@
 "use client";
 
-import { BellIcon, MailIcon, User2Icon, Menu } from "lucide-react";
+import { BellIcon, MailIcon, User2Icon, Menu, Clock2Icon } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -159,16 +159,16 @@ export default function ResponsiveNavbar() {
 
   return (
     <nav className="">
-      {/* <div className="py-2! w-full bg-blue-100 px-4! md:px-8">
-        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-2 lg:gap-0">
-          <div className="flex gap-1 text-xs md:text-sm items-center justify-center lg:justify-start">
+      <div className="py-2! w-full bg-blue-100 px-4! md:px-8">
+        <div className="flex flex-col lg:flex-row lg:justify-center lg:items-center gap-2 lg:gap-0">
+          {/* <div className="flex gap-1 text-xs md:text-sm items-center justify-center lg:justify-start">
             <MapPin
               className="size-4 md:size-5 flex-shrink-0"
               fill="#33628F"
               stroke="#dbeafe"
             />
             <span className="truncate">8494 Signal Hill Road Manassas, Va</span>
-          </div>
+          </div> */}
           <div className="hidden md:flex items-center gap-1 text-xs md:text-sm justify-center">
             <Clock2Icon className="size-4 text-[#33628F] flex-shrink-0" />
             <span>Working Time:</span>
@@ -176,12 +176,12 @@ export default function ResponsiveNavbar() {
               24 Hour Service - 7 Days a Week
             </span>
           </div>
-          <div className="text-[#33628F] text-xs md:text-sm flex items-center gap-2 justify-center lg:justify-end">
+          {/* <div className="text-[#33628F] text-xs md:text-sm flex items-center gap-2 justify-center lg:justify-end">
             <MailIcon className="size-4 flex-shrink-0" />
             <span className="truncate">info@poolvalet.com</span>
-          </div>
+          </div> */}
         </div>
-      </div> */}
+      </div>
 
       <div className="py-4! px-4! md:px-8! flex flex-row justify-between items-center">
         <div className="flex-shrink-0">
@@ -257,7 +257,7 @@ export default function ResponsiveNavbar() {
                         </Tooltip>
                       </h2>
 
-                      <p className="text-muted-foreground text-sm">
+                      <p className=" text-background/60 text-sm">
                         {data?.data?.email}
                       </p>
                       <div className="flex justify-end items-center gap-2">
@@ -281,7 +281,7 @@ export default function ResponsiveNavbar() {
                   <h1 className="text-center text-xl md:text-2xl">
                     Welcome to Pool Valet
                   </h1>
-                  <p className="text-sm text-center text-muted-foreground">
+                  <p className="text-sm text-center text-background/60">
                     Whether you&apos;re a pool professional offering expert
                     service or a homeowner seeking trusted care, Pool Valet
                     connects you with what matters quality, convenience, and

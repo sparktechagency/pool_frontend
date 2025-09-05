@@ -67,7 +67,7 @@ export const getCategoriesApi = async (token: string) => {
 };
 
 export const getCategoryListApi = async () => {
-  return await howl({ link: `/get-category-lists` });
+  return await howl({ link: `/get-category-web` });
 };
 
 export const viewCategoryApi = async (id: string | number, token: string) => {
