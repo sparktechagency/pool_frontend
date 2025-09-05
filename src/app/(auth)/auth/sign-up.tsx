@@ -70,6 +70,7 @@ export default function SignUp({ as }: { as: string }) {
       } else {
         toast.success(call.message ?? "Successfully Logged in");
         navig.push(`/otp?xxx=${encrypt(dataset.email)}`);
+        // navig.push(as === "user" ? "/get-service" : "/browse");
       }
     } catch (error) {
       console.error(error);
