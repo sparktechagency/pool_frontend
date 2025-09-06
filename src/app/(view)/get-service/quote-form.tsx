@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,13 +25,10 @@ import { toast } from "sonner";
 import { useCookies } from "react-cookie";
 import { BASE_API_ENDPOINT } from "@/lib/config/data";
 import { useRouter } from "next/navigation";
-const serviceList = [
-  { icon: "/icon/brush.svg", title: "Pool Cleaning" },
-  { icon: "/icon/equipment.svg", title: "Repairs & Equipment" },
-  { icon: "/icon/swimming-pool.svg", title: "Pool Construction" },
-  { icon: "/icon/farm-house.svg", title: "Pool Inspection" },
-  { icon: "/icon/smartphone.svg", title: "Lighting & Automation" },
-];
+import { getCategoryListApi } from "@/lib/api/admin/admin";
+import { AnyType } from "@/lib/config/error-type";
+import { useQuery } from "@tanstack/react-query";
+import { serverImageBuilder } from "@/lib/formatter";
 
 const formSchema = z.object({
   service: z.string().min(1, "Service is required"),
@@ -51,6 +48,12 @@ export default function QuoteForm() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [cookies] = useCookies(["ghost"]);
+  const { data, isPending } = useQuery({
+    queryKey: ["category"],
+    queryFn: (): AnyType => {
+      return getCategoryListApi();
+    },
+  });
   const navig = useRouter();
   const {
     register,
@@ -133,8 +136,6 @@ export default function QuoteForm() {
     if (file) {
       setSelectedImage(file);
       setPreviewUrl(URL.createObjectURL(file));
-      // console.log("FILE");
-      // console.log(file);
     }
   };
 
@@ -159,14 +160,20 @@ export default function QuoteForm() {
           <SelectValue placeholder="Select service" />
         </SelectTrigger>
         <SelectContent>
-          {serviceList.map((x, i) => (
-            <SelectItem key={i} value={x.title.toLowerCase().trim()}>
-              <div className="flex items-center gap-2">
-                <Image src={x.icon} width={24} height={24} alt={x.title} />
-                <span>{x.title}</span>
-              </div>
-            </SelectItem>
-          ))}
+          {!isPending &&
+            data.data.map((x: AnyType) => (
+              <SelectItem key={x.id} value={x.id}>
+                <div className="flex items-center gap-2">
+                  <Image
+                    src={serverImageBuilder(x.icon)}
+                    width={24}
+                    height={24}
+                    alt={x.name}
+                  />
+                  <span>{x.name}</span>
+                </div>
+              </SelectItem>
+            ))}
         </SelectContent>
       </Select>
       {errors.service && (
