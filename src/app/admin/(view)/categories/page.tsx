@@ -54,7 +54,12 @@ export default function Page() {
                     className="size-10 object-contain"
                     alt={x.name}
                   />
-                  <span>{x.name}</span>
+                  <div className="">
+                    <span>{x.name}</span>
+                    <p className="text-sm font-semibold text-muted-foreground">
+                      {x.description}
+                    </p>
+                  </div>
                 </div>
                 <div className="">
                   <EditCategory id={x.id} currentName={x.name} />

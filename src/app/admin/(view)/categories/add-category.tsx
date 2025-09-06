@@ -16,12 +16,14 @@ import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function AddCategory() {
   const [cookies] = useCookies(["ghost"]);
 
   const [icon, setIcon] = useState<File | null>(null);
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [open, setOpen] = useState(false);
 
   const qCLient = useQueryClient();
@@ -35,6 +37,7 @@ export default function AddCategory() {
     const formData = new FormData();
     formData.append("icon", icon);
     formData.append("name", name.trim());
+    formData.append("description", description);
 
     try {
       const res = await fetch(`${BASE_API_ENDPOINT}/admin/add-category`, {
@@ -90,6 +93,13 @@ export default function AddCategory() {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder="Type here..."
+          />
+          <Label htmlFor="name">Category description:</Label>
+          <Textarea
+            id="name"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             placeholder="Type here..."
           />
         </div>

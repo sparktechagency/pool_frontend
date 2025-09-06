@@ -42,27 +42,28 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    login(data, {
-      onSuccess: (res: AnyType) => {
-
-
-        if (res.token) {
-          toast.success(res.message ?? "Login Success");
-          try {
-            setCookie("ghost", res.token);
-            navig.push("/admin/dashboard");
-          } catch (error) {
-            console.error(error);
-            toast.error("Failed to set Cookie");
+    login(
+      { ...data, role: "ADMIN" },
+      {
+        onSuccess: (res: AnyType) => {
+          if (res.token) {
+            toast.success(res.message ?? "Login Success");
+            try {
+              setCookie("ghost", res.token);
+              navig.push("/admin/dashboard");
+            } catch (error) {
+              console.error(error);
+              toast.error("Failed to set Cookie");
+            }
+          } else {
+            toast.error("Login Failed 202");
           }
-        } else {
-          toast.error("Login Failed 202");
-        }
-      },
-      onError: () => {
-        toast.error("Login failed");
-      },
-    });
+        },
+        onError: () => {
+          toast.error("Login failed");
+        },
+      }
+    );
   };
 
   return (
