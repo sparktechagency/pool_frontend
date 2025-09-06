@@ -23,6 +23,7 @@ export default async function MadeSimple() {
   }
 
   const dataToRender = categories.length ? categories : list;
+  console.log(dataToRender);
 
   return (
     <section className="text-center mt-12 space-y-3">
@@ -61,9 +62,9 @@ export default async function MadeSimple() {
                 <h4 className="text-start text-2xl text-background">
                   {x.name || x.title || "Service Name"}
                 </h4>
-                {x.desc && (
+                {x.description && (
                   <p className="text-start font-extralight text-background">
-                    {x.desc}
+                    {x.description}
                   </p>
                 )}
               </div>
