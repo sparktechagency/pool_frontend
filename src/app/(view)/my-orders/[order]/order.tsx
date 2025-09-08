@@ -30,10 +30,11 @@ export default async function Order({ id }: { id: string }) {
   }
 
   const data = call?.data;
+
   const dataset = [
     { for: "Service", is: data.service },
     { for: "Request Date", is: data.date },
-    { for: "Service Time", is: data.time },
+    // { for: "Service Time", is: data.time },
     { for: "Location", is: data.address },
     { for: "Notes", is: data.describe_issue },
   ];

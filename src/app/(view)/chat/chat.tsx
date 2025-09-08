@@ -28,6 +28,7 @@ import { AnyType } from "@/lib/config/error-type";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import howl from "@/lib/howl";
+import { BASE_ENDPOINT } from "@/lib/config/data";
 
 interface Message {
   sender_id: string;
@@ -36,7 +37,7 @@ interface Message {
   timestamp: string;
 }
 
-const SOCKET_URL = "http://10.10.10.65:3000";
+const SOCKET_URL = BASE_ENDPOINT;
 
 export default function ChatPage() {
   const [cookies] = useCookies(["ghost"]);
@@ -89,9 +90,12 @@ export default function ChatPage() {
 
   // connect socket once per user
   useEffect(() => {
-    if (!me?.data?.id || socketRef.current) return;
+    if (!me?.data?.id) return; // wait until profile is loaded
+    if (socketRef.current) return; // prevent duplicate sockets
 
-    const socket = io(`${SOCKET_URL}`, {
+    console.log("🔌 Initializing socket for user:", me.data.id);
+
+    const socket = io(SOCKET_URL, {
       query: { userId: me.data.id },
       reconnectionAttempts: 10,
       reconnectionDelay: 500,
@@ -99,34 +103,28 @@ export default function ChatPage() {
 
     socketRef.current = socket;
 
-    // receive messages
-    socket.on("privateMessage", (msg: any) => {
-      const normalized: Message = {
-        sender_id:
-          msg.sender_id?.toString?.() ?? msg.senderId?.toString?.() ?? "",
-        receiver_id:
-          msg.receiver_id?.toString?.() ?? msg.receiverId?.toString?.() ?? "",
-        message: msg.message ?? "",
-        timestamp: msg.timestamp || new Date().toISOString(),
-      };
+    // socket.on("connect", () => {
+    //   console.log("✅ Socket connected:", socket.id);
+    // });
 
-      const myId = me.data.id.toString();
-      const involvesMe =
-        normalized.sender_id === myId || normalized.receiver_id === myId;
-      const matchesSelected =
-        !selectedChat ||
-        normalized.sender_id === selectedChat ||
-        normalized.receiver_id === selectedChat;
+    // socket.on("connect_error", (err) => {
+    //   console.error("❌ Socket connect error:", err.message);
+    // });
 
-      if (involvesMe && matchesSelected)
-        setMessages((prev) => [...prev, normalized]);
-    });
+    // socket.on("disconnect", (reason) => {
+    //   console.log("❌ Socket disconnected:", reason);
+    // });
+
+    // socket.on("privateMessage", (msg: any) => {
+    //   console.log("📩 Received message:", msg);
+    //   // handle normalization...
+    // });
 
     return () => {
       socket.disconnect();
       socketRef.current = null;
     };
-  }, [me?.data?.id, selectedChat]);
+  }, [me?.data?.id]); // only depends on user id
 
   const handleSend = () => {
     if (
@@ -142,6 +140,8 @@ export default function ChatPage() {
     const payload = { receiver_id: msg.receiverId, message: msg.message };
     mutate(payload, { onError: console.error });
     setNewMessage("");
+    queryClient.invalidateQueries({ queryKey: ["chatList"] });
+    queryClient.invalidateQueries({ queryKey: ["chat"] });
   };
 
   useEffect(() => {

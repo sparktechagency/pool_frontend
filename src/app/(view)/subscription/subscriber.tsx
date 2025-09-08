@@ -86,6 +86,7 @@ export default function Subscriber({
               data.data.client_secret
             )}&r=${price}&kilo=${String(x)}&codex=${data.data.id}`
           );
+          toast.success(data.message ?? "Successfully purchased the plan");
           setLoading(false);
         },
       }

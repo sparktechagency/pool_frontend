@@ -49,6 +49,7 @@ export default async function Details({ id }: { id: string | number }) {
           </Button>
         </div>
       )}
+      {/* {serverImageBuilder(data?.photos[0])} */}
       <Image
         src={
           data?.photos[0]
@@ -70,8 +71,8 @@ export default async function Details({ id }: { id: string | number }) {
         <p>Request Date:</p>
         <p>{data?.date}</p>
 
-        <p>Service Time:</p>
-        <p>{data?.time}</p>
+        {/* <p>Service Time:</p>
+        <p>{data?.time}</p> */}
 
         <p>Location:</p>
         <p>{data?.address}</p>
@@ -107,7 +108,7 @@ export default async function Details({ id }: { id: string | number }) {
         </div>
         <div className="">
           <h4 className="text-muted-foreground">Canceled order</h4>
-          <p>25</p>
+          <p>N/A</p>
         </div>
       </div>
       <Bidder data={data} point={planCall?.current_plan?.total_quotes} />

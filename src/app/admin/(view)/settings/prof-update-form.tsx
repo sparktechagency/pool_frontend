@@ -25,9 +25,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
-  full_name: z.string().min(1, "Full name is required"),
-  contact_number: z.string().min(1, "Contact is required"),
-  location: z.string().min(1, "Location is required"),
+  full_name: z.string().optional(),
+  contact_number: z.string().optional(),
+  location: z.string().optional(),
 });
 
 export default function ProfUpdateForm() {

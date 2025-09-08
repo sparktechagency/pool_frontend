@@ -21,7 +21,12 @@ import { AnyType } from "@/lib/config/error-type";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
 const bidSchema = z.object({
-  price: z.string().min(1, "Price is required"),
+  price: z
+    .string()
+    .min(1, "Price is required")
+    .refine((val) => Number(val) >= 1, {
+      message: "Price must be at least 1",
+    }),
   outline: z.string().min(1, "Outline is required"),
 });
 
@@ -105,7 +110,12 @@ export default function BidForm({
             <FormItem>
               <FormLabel>Add your bid price</FormLabel>
               <FormControl>
-                <Input placeholder="Enter Price" type="number" {...field} />
+                <Input
+                  placeholder="Enter Price"
+                  type="number"
+                  min={1}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

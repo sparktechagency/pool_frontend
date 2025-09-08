@@ -151,8 +151,9 @@ export default function QuoteForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <Select
+        value={selectedType}
         onValueChange={(value) => {
-          setSelectedType(value);
+          setSelectedType(value); // value is string
           setValue("service", value);
         }}
       >
@@ -162,7 +163,9 @@ export default function QuoteForm() {
         <SelectContent>
           {!isPending &&
             data.data.map((x: AnyType) => (
-              <SelectItem key={x.id} value={x.id}>
+              <SelectItem key={x.id} value={String(x.id)}>
+                {" "}
+                {/* <-- convert to string */}
                 <div className="flex items-center gap-2">
                   <Image
                     src={serverImageBuilder(x.icon)}
@@ -176,6 +179,7 @@ export default function QuoteForm() {
             ))}
         </SelectContent>
       </Select>
+
       {errors.service && (
         <p className="text-red-500">{errors.service.message}</p>
       )}

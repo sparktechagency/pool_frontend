@@ -14,13 +14,10 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import All from "./all";
 import Accepted from "./accepted";
-import { useSearchParams } from "next/navigation";
 
 export default function BidList({ id }: { id: string | number }) {
   const [isClient, setIsClient] = React.useState(false);
   const [cookies] = useCookies(["ghost"]);
-
-  const accepted = useSearchParams().get("accepted");
 
   React.useEffect(() => {
     setIsClient(true);
@@ -66,10 +63,7 @@ export default function BidList({ id }: { id: string | number }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Tabs
-            className="mb-6"
-            defaultValue={accepted === "true" ? "password" : "account"}
-          >
+          <Tabs className="mb-6" defaultValue={"account"}>
             <TabsList className="bg-inherit">
               <TabsTrigger value="account">All Bids</TabsTrigger>
               <TabsTrigger value="password">Accepted Bids</TabsTrigger>
