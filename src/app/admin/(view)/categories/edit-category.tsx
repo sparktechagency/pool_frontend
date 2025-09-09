@@ -15,8 +15,11 @@ import { BASE_API_ENDPOINT } from "@/lib/config/data";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit3Icon } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { viewCategoryApi } from "@/lib/api/admin/admin";
 
 interface EditCategoryProps {
   id: string;
@@ -28,11 +31,17 @@ export default function EditCategory({
   currentName = "",
 }: EditCategoryProps) {
   const [cookies] = useCookies(["adminGhost"]);
-
+  // const { data, isPending } = useQuery({
+  //   queryKey: ["view_category"],
+  //   queryFn: () => {
+  //     return viewCategoryApi(id, cookies.adminGhost);
+  //   },
+  // });
   const [icon, setIcon] = useState<File | null>(null);
   const [name, setName] = useState(currentName);
   const [open, setOpen] = useState(false);
-
+  const [description, setDescription] = useState("");
+  const [expectedBudget, setExpectedBudget] = useState(false);
   const qCLient = useQueryClient();
 
   const handleConfirm = async () => {
@@ -44,13 +53,16 @@ export default function EditCategory({
     const formData = new FormData();
     if (icon) formData.append("icon", icon);
     if (name.trim()) formData.append("name", name.trim());
+    formData.append("description", description);
     formData.append("_method", "PUT"); // static
-
+    if (expectedBudget) {
+      formData.append("expected_budget", "YES");
+    }
     try {
       const res = await fetch(
         `${BASE_API_ENDPOINT}/admin/edit-category/${id}`,
         {
-          method: "POST", // we use POST + _method: PUT
+          method: "POST",
           headers: {
             Authorization: `Bearer ${cookies.adminGhost}`,
           },
@@ -104,6 +116,21 @@ export default function EditCategory({
             onChange={(e) => setName(e.target.value)}
             placeholder="Type new name..."
           />
+          <Label htmlFor="description">Category description:</Label>
+          <Textarea
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Type here..."
+          />
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="expectedBudget"
+              checked={expectedBudget}
+              onCheckedChange={(checked) => setExpectedBudget(checked === true)}
+            />
+            <Label htmlFor="expectedBudget">Need budget field?</Label>
+          </div>
         </div>
         <DialogFooter>
           <Button onClick={handleConfirm} disabled={!icon && !name.trim()}>

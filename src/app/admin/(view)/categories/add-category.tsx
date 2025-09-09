@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,6 +17,7 @@ import { useCookies } from "react-cookie";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox"; // ✅ import ShadCN Checkbox
 
 export default function AddCategory() {
   const [cookies] = useCookies(["adminGhost"]);
@@ -24,6 +25,7 @@ export default function AddCategory() {
   const [icon, setIcon] = useState<File | null>(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [expectedBudget, setExpectedBudget] = useState(false);
   const [open, setOpen] = useState(false);
 
   const qCLient = useQueryClient();
@@ -38,6 +40,9 @@ export default function AddCategory() {
     formData.append("icon", icon);
     formData.append("name", name.trim());
     formData.append("description", description);
+    if (expectedBudget) {
+      formData.append("expected_budget", "YES");
+    }
 
     try {
       const res = await fetch(`${BASE_API_ENDPOINT}/admin/add-category`, {
@@ -59,6 +64,8 @@ export default function AddCategory() {
       toast.success(data.message ?? "Category added ✅");
       setIcon(null);
       setName("");
+      setDescription("");
+      setExpectedBudget(false);
       setOpen(false); // Close dialog on success
       qCLient.invalidateQueries({
         queryKey: ["category"],
@@ -95,13 +102,23 @@ export default function AddCategory() {
             onChange={(e) => setName(e.target.value)}
             placeholder="Type here..."
           />
-          <Label htmlFor="name">Category description:</Label>
+          <Label htmlFor="description">Category description:</Label>
           <Textarea
-            id="name"
+            id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Type here..."
           />
+
+          {/* ✅ New Checkbox */}
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="expectedBudget"
+              checked={expectedBudget}
+              onCheckedChange={(checked) => setExpectedBudget(checked === true)}
+            />
+            <Label htmlFor="expectedBudget">Need budget field?</Label>
+          </div>
         </div>
         <DialogFooter>
           <Button onClick={handleConfirm} disabled={!icon || !name.trim()}>
