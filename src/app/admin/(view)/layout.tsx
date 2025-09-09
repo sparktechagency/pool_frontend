@@ -16,7 +16,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const token = (await cookies()).get("ghost")?.value;
+  const token = (await cookies()).get("adminGhost")?.value;
   let user: AnyType;
 
   if (!token) {

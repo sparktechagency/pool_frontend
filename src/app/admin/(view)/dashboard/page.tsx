@@ -21,12 +21,12 @@ import { useCookies } from "react-cookie";
 import { AnyType } from "@/lib/config/error-type";
 
 export default function Page() {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
   const [timeRange, setTimeRange] = React.useState<"7" | "30" | "90">("7");
   const { data, isPending }: AnyType = useQuery({
     queryKey: ["dboard", timeRange],
     queryFn: () => {
-      return getDashboardApi(timeRange, cookies.ghost);
+      return getDashboardApi(timeRange, cookies.adminGhost);
     },
   });
   return (

@@ -31,7 +31,7 @@ const formSchema = z.object({
 
 export default function LoginForm() {
   const { mutate: login, isPending } = useMutation({ mutationFn: loginApi });
-  const [, setCookie] = useCookies(["ghost"]);
+  const [, setCookie] = useCookies(["adminGhost"]);
   const navig = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,7 +49,7 @@ export default function LoginForm() {
           if (res.token) {
             toast.success(res.message ?? "Login Success");
             try {
-              setCookie("ghost", res.token);
+              setCookie("adminGhost", res.token);
               navig.push("/admin/dashboard");
             } catch (error) {
               console.error(error);

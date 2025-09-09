@@ -42,9 +42,6 @@ export default function ResetForm() {
   });
 
   function onSubmit() {
-
-    // implement password reset logic here
-
     navig.push("/admin/dashboard");
   }
 

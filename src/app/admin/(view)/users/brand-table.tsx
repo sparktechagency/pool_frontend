@@ -38,14 +38,14 @@ function useDebounce<T>(value: T, delay = 400) {
 }
 
 export default function BrandTable() {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const debouncedSearch = useDebounce(search);
 
   const { data, isFetching, refetch }: AnyType = useQuery({
     queryKey: ["users", page, debouncedSearch],
-    queryFn: () => getUsersApi(page, debouncedSearch, cookies.ghost),
+    queryFn: () => getUsersApi(page, debouncedSearch, cookies.adminGhost),
   });
 
   // Determine how many rows to render during skeleton
@@ -162,7 +162,7 @@ export default function BrandTable() {
                               try {
                                 const call: AnyType = await deleteUserApi(
                                   customer.id,
-                                  cookies.ghost
+                                  cookies.adminGhost
                                 );
                                 if (!call.status) {
                                   toast.error(

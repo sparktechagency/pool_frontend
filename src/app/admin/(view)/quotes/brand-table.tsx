@@ -30,12 +30,12 @@ import {
 import ViewQuote from "./view-quote";
 
 export default function BrandTable() {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
   const [page, setPage] = useState(1);
 
   const { data, isFetching }: AnyType = useQuery({
     queryKey: ["quotes", page],
-    queryFn: () => getQuoteListingApi(cookies.ghost, page),
+    queryFn: () => getQuoteListingApi(cookies.adminGhost, page),
   });
 
   const customers = data?.quotes?.data ?? [];

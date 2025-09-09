@@ -28,10 +28,10 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartPart() {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
   const { data, isPending }: AnyType = useQuery({
     queryKey: ["dbchart"],
-    queryFn: () => getChartApi(cookies.ghost),
+    queryFn: () => getChartApi(cookies.adminGhost),
   });
 
   if (isPending) {

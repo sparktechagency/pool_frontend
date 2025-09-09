@@ -25,11 +25,11 @@ import {
 import EditCategory from "./edit-category";
 
 export default function Page() {
-  const [cookeis] = useCookies(["ghost"]);
+  const [cookeis] = useCookies(["adminGhost"]);
   const { data, isPending }: AnyType = useQuery({
     queryKey: ["category"],
     queryFn: () => {
-      return getCategoriesApi(cookeis.ghost);
+      return getCategoriesApi(cookeis.adminGhost);
     },
   });
   const qCLient = useQueryClient();
@@ -84,7 +84,7 @@ export default function Page() {
                             try {
                               const call: AnyType = await deleteCategoryApi(
                                 x.id,
-                                cookeis.ghost
+                                cookeis.adminGhost
                               );
                               if (!call.status) {
                                 toast.error(

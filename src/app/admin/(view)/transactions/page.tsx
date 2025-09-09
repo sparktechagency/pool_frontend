@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { getTransactionApi } from "@/lib/api/admin/admin";
 
 export default async function Page() {
-  const token = (await cookies()).get("ghost")?.value;
+  const token = (await cookies()).get("adminGhost")?.value;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const call: any = await getTransactionApi(1, token ?? "");
   if (!call.status) {

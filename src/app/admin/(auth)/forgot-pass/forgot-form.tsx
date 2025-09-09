@@ -29,7 +29,6 @@ export default function ForgotForm() {
   });
 
   function onSubmit() {
-
     navig.push("/admin/verify-otp");
   }
   return (

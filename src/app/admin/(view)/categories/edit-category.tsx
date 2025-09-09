@@ -27,7 +27,7 @@ export default function EditCategory({
   id,
   currentName = "",
 }: EditCategoryProps) {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
 
   const [icon, setIcon] = useState<File | null>(null);
   const [name, setName] = useState(currentName);
@@ -52,7 +52,7 @@ export default function EditCategory({
         {
           method: "POST", // we use POST + _method: PUT
           headers: {
-            Authorization: `Bearer ${cookies.ghost}`,
+            Authorization: `Bearer ${cookies.adminGhost}`,
           },
           body: formData,
         }

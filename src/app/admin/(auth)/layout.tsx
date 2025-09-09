@@ -11,20 +11,20 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  const token = cookieStore.get("ghost")?.value;
+  const token = cookieStore.get("adminGhost")?.value;
   let user: AnyType;
 
   try {
     user = await getProfileApi(token as string);
   } catch (error) {
     console.error("Failed to fetch user profile:", error);
-    cookieStore.delete("ghost");
+    cookieStore.delete("adminGhost");
     redirect("/login");
   }
 
   if (token) {
     if (!user.status) {
-      cookieStore.delete("ghost");
+      cookieStore.delete("adminGhost");
       redirect("/login");
     }
     switch (user.data.role) {

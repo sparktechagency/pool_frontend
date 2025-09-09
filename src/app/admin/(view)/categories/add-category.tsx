@@ -19,7 +19,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function AddCategory() {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
 
   const [icon, setIcon] = useState<File | null>(null);
   const [name, setName] = useState("");
@@ -43,7 +43,7 @@ export default function AddCategory() {
       const res = await fetch(`${BASE_API_ENDPOINT}/admin/add-category`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${cookies.ghost}`,
+          Authorization: `Bearer ${cookies.adminGhost}`,
         },
         body: formData,
       });

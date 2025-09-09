@@ -11,12 +11,12 @@ import { toast } from "sonner";
 import { getPageApi } from "@/lib/api/core/core";
 
 export default function Page() {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
   const [text, setText] = useState<string>("");
   const { mutate } = useMutation({
     mutationKey: ["privacy"],
     mutationFn: (data: AnyType) => {
-      return createContentApi(data, cookies.ghost);
+      return createContentApi(data, cookies.adminGhost);
     },
   });
   useEffect(() => {
@@ -26,7 +26,6 @@ export default function Page() {
         if (!call.status) {
           toast.error(call.message ?? "Something went wrong");
         } else {
-
           setText(call.data.content);
         }
       } catch (error) {
