@@ -5,6 +5,7 @@ import { LogOutIcon } from "lucide-react";
 import AdminSideMenu from "./admin-side-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Image from "next/image";
+import AdminUser from "../ui/admin-user";
 
 export default function Sidebar() {
   return (
@@ -25,13 +26,7 @@ export default function Sidebar() {
       </div>
       <div className="w-full">
         <div className="bg-secondary hover:bg-zinc-900/10 w-full flex flex-row justify-between items-center p-2! rounded-lg transition-colors">
-          <div className="flex items-center gap-2">
-            <Avatar>
-              <AvatarImage src="https://avatar.iran.liara.run/public" />
-              <AvatarFallback>AV</AvatarFallback>
-            </Avatar>
-            Admin
-          </div>
+          <AdminUser />
           <Button variant="ghost" className="text-destructive">
             <LogOutIcon />
           </Button>

@@ -9,11 +9,11 @@ import React from "react";
 import { useCookies } from "react-cookie";
 
 export default function ViewQuote({ id }: { id: string | number }) {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
 
   const { data, isPending }: AnyType = useQuery({
     queryKey: ["quote", id],
-    queryFn: () => adminViewQuoteApi(id, cookies.ghost),
+    queryFn: () => adminViewQuoteApi(id, cookies.adminGhost),
   });
 
   if (isPending) {

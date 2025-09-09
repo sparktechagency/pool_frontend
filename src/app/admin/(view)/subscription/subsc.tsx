@@ -12,12 +12,12 @@ import { useCookies } from "react-cookie";
 import { toast } from "sonner";
 
 export default function Page() {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
 
   const { data, isLoading, refetch }: AnyType = useQuery({
     queryKey: ["subsc"],
-    queryFn: () => getSubscriptionApi(cookies.ghost),
-    enabled: !!cookies.ghost,
+    queryFn: () => getSubscriptionApi(cookies.adminGhost),
+    enabled: !!cookies.adminGhost,
   });
 
   const [selectedTab, setSelectedTab] = useState<string>("1");
@@ -29,7 +29,7 @@ export default function Page() {
       if (!data) return Promise.reject("No data");
       const subscriptionId = data.subscriptions[parseInt(selectedTab) - 1].id;
 
-      return updateSubscription(subscriptionId, cookies.ghost, newQuotes);
+      return updateSubscription(subscriptionId, cookies.adminGhost, newQuotes);
     },
     onError: (err: AnyType) => {
       toast.error(

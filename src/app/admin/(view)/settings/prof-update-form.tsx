@@ -31,15 +31,15 @@ const formSchema = z.object({
 });
 
 export default function ProfUpdateForm() {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
   const { data, isPending }: AnyType = useQuery({
     queryKey: ["profile"],
-    queryFn: () => getProfileApi(cookies.ghost),
+    queryFn: () => getProfileApi(cookies.adminGhost),
   });
   const { mutate } = useMutation({
     mutationKey: ["profile"],
     mutationFn: (data: AnyType) => {
-      return updateAdminProfile(cookies.ghost, data);
+      return updateAdminProfile(cookies.adminGhost, data);
     },
   });
 

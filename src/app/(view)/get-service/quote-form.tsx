@@ -153,7 +153,7 @@ export default function QuoteForm() {
       <Select
         value={selectedType}
         onValueChange={(value) => {
-          setSelectedType(value); // value is string
+          setSelectedType(value);
           setValue("service", value);
         }}
       >

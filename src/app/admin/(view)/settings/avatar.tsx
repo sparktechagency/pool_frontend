@@ -14,13 +14,13 @@ import { BASE_API_ENDPOINT } from "@/lib/config/data";
 import { toast } from "sonner";
 
 export default function AvatarControl() {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { data, isPending }: AnyType = useQuery({
     queryKey: ["profile"],
-    queryFn: () => getProfileApi(cookies.ghost),
+    queryFn: () => getProfileApi(cookies.adminGhost),
   });
 
   const { mutate: updateAvatar, isPending: isUploading } = useMutation({
@@ -32,7 +32,7 @@ export default function AvatarControl() {
       const res = await fetch(`${BASE_API_ENDPOINT}/admin/update-profile`, {
         method: "POST", // backend expects PATCH through _method
         headers: {
-          Authorization: `Bearer ${cookies.ghost}`,
+          Authorization: `Bearer ${cookies.adminGhost}`,
         },
         body: formData,
       });

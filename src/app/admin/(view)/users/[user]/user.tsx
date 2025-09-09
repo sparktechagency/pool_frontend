@@ -16,7 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 export default async function User({ user }: { user: string }) {
-  const token = (await cookies()).get("ghost")?.value;
+  const token = (await cookies()).get("adminGhost")?.value;
   const data: AnyType = await viewUserApi(user, token ?? "");
   if (!data || !data.status) {
     return (

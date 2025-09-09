@@ -15,11 +15,10 @@ import { BASE_API_ENDPOINT } from "@/lib/config/data";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "sonner";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Edit3Icon } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
-import { viewCategoryApi } from "@/lib/api/admin/admin";
 
 interface EditCategoryProps {
   id: string;
