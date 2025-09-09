@@ -1,4 +1,3 @@
-// lib/auth.ts
 import { NextAuthOptions, DefaultSession, DefaultUser } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -25,14 +24,14 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   providers: [
     GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_ID!,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
   callbacks: {
-    async jwt({ token, account, user }) {
-      if (account?.provider === "google" && user) {
-        token.googleId = user.id;
+    async jwt({ token, account }) {
+      if (account?.provider === "google") {
+        token.googleId = account.providerAccountId;
       }
       return token;
     },

@@ -11,13 +11,13 @@ import { toast } from "sonner";
 import { getPageApi } from "@/lib/api/core/core";
 
 export default function Page() {
-  const [cookies] = useCookies(["ghost"]);
+  const [cookies] = useCookies(["adminGhost"]);
   const [text, setText] = useState<string>("");
 
   const { mutate } = useMutation({
     mutationKey: ["tnc"],
     mutationFn: (data: AnyType) => {
-      return createContentApi(data, cookies.ghost);
+      return createContentApi(data, cookies.adminGhost);
     },
   });
 

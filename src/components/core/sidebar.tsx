@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import { LogOutIcon } from "lucide-react";
 import AdminSideMenu from "./admin-side-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+
 import Image from "next/image";
 import AdminUser from "../ui/admin-user";
 
