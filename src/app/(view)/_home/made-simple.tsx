@@ -71,7 +71,7 @@ export default async function MadeSimple() {
 
               <div className="flex justify-end items-end h-full">
                 <Button variant="ghost" className="text-background" asChild>
-                  <Link href="/get-service">
+                  <Link href={`/get-service?ss=${x.id}`}>
                     Learn more <ArrowRight />
                   </Link>
                 </Button>

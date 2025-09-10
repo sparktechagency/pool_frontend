@@ -1,15 +1,16 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import PaymentForm from "./payment-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { decrypt } from "@/lib/formatter";
+import { useEffect, useState } from "react";
 // import { decrypt } from "@/lib/formatter";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_SPTRIPE_KEY!);
-
 export default function Page() {
+  const [stripePromise, setStripePromise] = useState<any>(null);
   const navig = useRouter();
   const searchParams = useSearchParams();
   const encryptedId = searchParams.get("xxx");
@@ -17,6 +18,16 @@ export default function Page() {
   const kilo = searchParams.get("kilo");
   const codex = searchParams.get("codex");
   const clientSecret = decrypt(encryptedId as string);
+  console.log("Stripe Key:", process.env.NEXT_PUBLIC_STRIPE_KEY);
+  useEffect(() => {
+    const init = async () => {
+      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY!);
+      setStripePromise(stripe);
+    };
+    init();
+  }, []);
+
+  if (!stripePromise) return null;
   if (!price || !codex || !kilo) {
     return navig.back();
   }

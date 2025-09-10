@@ -8,7 +8,7 @@ import {
 import React from "react";
 import QuotePage from "./quote-page";
 
-export default function Page() {
+export default async function Page() {
   return (
     <>
       <Bread />

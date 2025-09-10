@@ -1,7 +1,6 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,11 +19,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ImageIcon, XIcon } from "lucide-react";
 import Image from "next/image";
-
 import { toast } from "sonner";
 import { useCookies } from "react-cookie";
 import { BASE_API_ENDPOINT } from "@/lib/config/data";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getCategoryListApi } from "@/lib/api/admin/admin";
 import { AnyType } from "@/lib/config/error-type";
 import { useQuery } from "@tanstack/react-query";
@@ -32,18 +30,20 @@ import { serverImageBuilder } from "@/lib/formatter";
 
 const formSchema = z.object({
   service: z.string().min(1, "Service is required"),
-  describe_issue: z.string().min(1, "Describe the issue"),
+  describe_issue: z.string().optional(),
   property_type: z.string(),
   service_type: z.string(),
   pool_depth: z.string(),
-  date: z.string(),
-  time: z.string(),
+  // date: z.string(),
+  // time: z.string(),
   zip_code: z.string(),
   address: z.string(),
   expected_budget: z.string().optional(),
 });
 
 export default function QuoteForm() {
+  const ss = useSearchParams().get("ss");
+
   const [selectedType, setSelectedType] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -69,8 +69,8 @@ export default function QuoteForm() {
       property_type: "",
       service_type: "",
       pool_depth: "",
-      date: "",
-      time: "",
+      // date: "",
+      // time: "",
       zip_code: "",
       address: "",
       expected_budget: "",
@@ -79,12 +79,12 @@ export default function QuoteForm() {
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
-    const month = date.getMonth() + 1; // getMonth() returns 0-11
+    const month = date.getMonth() + 1;
     const day = date.getDate();
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   };
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: AnyType) => {
     if (data.date) {
       // Assuming formatDate is correct and returns a string
       data.date = formatDate(data.date);
@@ -102,10 +102,6 @@ export default function QuoteForm() {
       }
     });
     formData.append("photos[0]", selectedImage as File);
-
-    // formData.forEach((value, key) => {
-    //   console.log(`${key}: ${value}`);
-    // });
 
     try {
       const response = await fetch(`${BASE_API_ENDPOINT}/user/create-quote`, {
@@ -127,7 +123,7 @@ export default function QuoteForm() {
       // console.log(data);
       reset();
       navig.push("/my-orders");
-    } catch (error: any) {
+    } catch (error: AnyType) {
       toast.error(error.message ?? "Something went wrong!");
     }
   };
@@ -146,7 +142,42 @@ export default function QuoteForm() {
     if (input) input.value = "";
   };
 
-  const isConstruction = selectedType === "pool construction";
+  useEffect(() => {
+    if (!isPending && ss && data?.data) {
+      console.log(data.data);
+      const found = data.data.find(
+        (x: AnyType) => String(x.id) === ss || x.name === ss
+      );
+      console.log(found);
+      if (found) {
+        setValue("service", String(found.id));
+        setSelectedType(String(found.id));
+        console.log(found);
+      } else {
+        setValue("service", "");
+        setSelectedType("");
+      }
+    }
+  }, [ss, data, isPending, setValue]);
+
+  useEffect(() => {
+    if (ss && !selectedType) {
+      if (!isPending && ss && data?.data) {
+        const found = data.data.find(
+          (x: AnyType) => String(x.id) === ss || x.name === ss
+        );
+        console.log(found);
+        if (found) {
+          setValue("service", String(found.id));
+          setSelectedType(String(found.id));
+          console.log(found);
+        } else {
+          setValue("service", "");
+          setSelectedType("");
+        }
+      }
+    }
+  }, [ss, data, isPending, setValue, selectedType]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -164,7 +195,6 @@ export default function QuoteForm() {
           {!isPending &&
             data.data.map((x: AnyType) => (
               <SelectItem key={x.id} value={String(x.id)}>
-                {" "}
                 {/* <-- convert to string */}
                 <div className="flex items-center gap-2">
                   <Image
@@ -184,11 +214,18 @@ export default function QuoteForm() {
         <p className="text-red-500">{errors.service.message}</p>
       )}
 
-      <Label>Describe the issue:</Label>
-      <Textarea
-        {...register("describe_issue")}
-        placeholder="Describe issue..."
-      />
+      {data?.data?.find((x: { id: string }) => {
+        return String(x.id) === selectedType;
+      })?.expected_budget && (
+        <>
+          <Label>Describe the issue:</Label>
+          <Textarea
+            {...register("describe_issue")}
+            placeholder="Describe issue..."
+          />
+        </>
+      )}
+
       {errors.describe_issue && (
         <p className="text-red-500">{errors.describe_issue.message}</p>
       )}
@@ -241,15 +278,17 @@ export default function QuoteForm() {
         </SelectContent>
       </Select>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Input type="date" {...register("date")} />
         <Input type="time" {...register("time")} />
-      </div>
+      </div> */}
 
       <Input type="text" {...register("zip_code")} placeholder="Zip Code" />
       <Input type="text" {...register("address")} placeholder="Address" />
 
-      {isConstruction && (
+      {data?.data?.find((x: { id: string }) => {
+        return String(x.id) === selectedType;
+      })?.expected_budget && (
         <Input
           type="number"
           {...register("expected_budget")}

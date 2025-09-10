@@ -81,8 +81,10 @@ export default async function howl<T = unknown>({
   integrity = "",
 }: HowlRequest): Promise<T> {
   if (!link) throw new Error("Missing 'link'.");
-
-  const headers: HeadersInit = {};
+  
+const headers: HeadersInit = {
+  // Accept: "application/json", // <-- add this
+};
 
   if (token) {
     headers["Authorization"] = `${authSchemes[auth]} ${token}`;
@@ -94,24 +96,24 @@ export default async function howl<T = unknown>({
     (typeof data === "object" && data !== null && Object.keys(data).length === 0) ||
     data === undefined;
 
-  if (!isDataEmpty) {
-    if (content === "json") {
-      headers["Content-Type"] = contentTypes.json;
-      body = JSON.stringify(data);
-    } else if (content === "form") {
-      headers["Content-Type"] = contentTypes.form;
-      body = new URLSearchParams(data).toString();
-    } else if (content === "multipart") {
-      // Do not set content-type
-      body = data; // data must be FormData
-    } else if (content) {
-      headers["Content-Type"] = contentTypes[content] ?? contentTypes.json;
-      body = data;
-    } else {
-      headers["Content-Type"] = contentTypes.json;
-      body = JSON.stringify(data);
-    }
+if (!isDataEmpty) {
+  if (content === "json") {
+    headers["Content-Type"] = contentTypes.json;
+    body = JSON.stringify(data);
+  } else if (content === "form") {
+    headers["Content-Type"] = contentTypes.form;
+    body = new URLSearchParams(data).toString();
+  } else if (content === "multipart") {
+    // Do not set content-type for FormData
+    body = data; // data must be FormData
+  } else if (content) {
+    headers["Content-Type"] = contentTypes[content] ?? contentTypes.json;
+    body = data;
+  } else {
+    headers["Content-Type"] = contentTypes.json;
+    body = JSON.stringify(data);
   }
+}
 
   const requestConfig: RequestInit = {
     method: method.toUpperCase(),

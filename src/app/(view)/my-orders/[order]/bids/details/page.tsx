@@ -34,6 +34,7 @@ export default async function Page({
         <Details
           id={id as string}
           quoteId={order as string}
+          bidId={quote as string}
           xxx={xxx as string}
         />
       </Suspense>

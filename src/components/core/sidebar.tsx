@@ -1,11 +1,10 @@
 import React from "react";
 // import SideMenu from "./side-menu";
-import { Button } from "../ui/button";
-import { LogOutIcon } from "lucide-react";
 import AdminSideMenu from "./admin-side-menu";
 
 import Image from "next/image";
 import AdminUser from "../ui/admin-user";
+import LogooutButton from "./logoutButton";
 
 export default function Sidebar() {
   return (
@@ -27,9 +26,7 @@ export default function Sidebar() {
       <div className="w-full">
         <div className="bg-secondary hover:bg-zinc-900/10 w-full flex flex-row justify-between items-center p-2! rounded-lg transition-colors">
           <AdminUser />
-          <Button variant="ghost" className="text-destructive">
-            <LogOutIcon />
-          </Button>
+          <LogooutButton />
         </div>
       </div>
     </div>

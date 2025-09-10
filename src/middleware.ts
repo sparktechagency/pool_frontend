@@ -15,7 +15,7 @@ export function middleware(req: NextRequest) {
   }
 
   // Check for ghost cookie
-  const ghostCookie = req.cookies.get("ghost");
+  const ghostCookie = req.cookies.get("adminGhost");
 
   if (!ghostCookie) {
     return NextResponse.redirect(new URL("/admin/login", req.url));

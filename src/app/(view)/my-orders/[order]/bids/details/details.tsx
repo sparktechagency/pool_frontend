@@ -26,10 +26,12 @@ export default async function Details({
   id,
   quoteId,
   xxx,
+  bidId,
 }: {
   id: string | number;
   quoteId: string | number;
   xxx: string;
+  bidId: string;
 }) {
   const token = (await cookies()).get("ghost")?.value;
 
@@ -123,6 +125,7 @@ export default async function Details({
               id={quote.id}
               status={quote.status}
               xxx={xxx}
+              bidId={bidId}
             />
           )}
         </div>

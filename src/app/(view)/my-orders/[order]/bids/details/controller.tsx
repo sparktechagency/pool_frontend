@@ -29,12 +29,18 @@ export default function Controller({
   id,
   prov,
   xxx,
+  bidId,
 }: {
   id: string;
   status: string;
   xxx: string;
   prov: string | number;
+  bidId: string;
 }) {
+  // console.log("b-id", bidId);
+  // console.log("xxx", xxx);
+  // console.log("prov", prov);
+  // console.log("status", status);
   const [cookies] = useCookies(["ghost"]);
   const [mounted, setMounted] = React.useState(false);
   const navig = useRouter();
@@ -47,14 +53,14 @@ export default function Controller({
     mutationKey: ["quote"],
     mutationFn: () => {
       if (!cookies.ghost) return Promise.resolve();
-      return acceptRequestApi(id, cookies.ghost);
+      return acceptRequestApi(bidId, cookies.ghost);
     },
   });
   const { mutate: cancelBid } = useMutation({
     mutationKey: ["quote"],
     mutationFn: () => {
       if (!cookies.ghost) return Promise.resolve();
-      return cancelOrderApi(id, cookies.ghost);
+      return cancelOrderApi(bidId, cookies.ghost);
     },
   });
   const { mutate: pay } = useMutation({

@@ -110,6 +110,9 @@ export const deleteCategoryApi = async (id: string | number, token: string) => {
 export const getSubscriptionApi = async (token: string) => {
   return await howl({ link: `/admin/get-subscriptions`, token });
 };
+export const getSubscriptionProvApi = async () => {
+  return await howl({ link: `/get-subscriptions-web` });
+};
 
 export const updateSubscription = async (
   id: string | number,

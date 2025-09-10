@@ -103,11 +103,17 @@ export default function Subscriber({
         if (i === 0) {
           freePlan();
         } else {
-          managePlan(i + 1, x.cost);
+          managePlan(i + 1, x.cost ?? 0);
         }
       }}
     >
-      {loading ? <Loader2Icon className="animate-spin" /> : x.button}
+      {loading ? (
+        <Loader2Icon className="animate-spin" />
+      ) : i === 0 ? (
+        "Free plan"
+      ) : (
+        "Manage plan"
+      )}
     </Button>
   );
 }
