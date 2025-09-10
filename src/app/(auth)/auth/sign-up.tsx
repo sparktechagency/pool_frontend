@@ -23,6 +23,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useCookies } from "react-cookie";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { AnyType } from "@/lib/config/error-type";
 const signUpSchema = z
   .object({
     name: z.string().min(1, "Name is required"),
@@ -68,20 +70,26 @@ export default function SignUp({ as }: { as: string }) {
         method: "post",
         data,
       });
-      // console.log(call);
+      // console.log(call.error);
 
       if (!call.status) {
-        toast.error(call.message ?? "Failed to Log in");
+        if (typeof call.message === "object") {
+          // Get the first key dynamically
+          const key = Object.keys(call.message)[0];
+          // Show the first message under that key
+          toast.error(call.message[key][0]);
+        } else {
+          // If it's just a string
+          toast.error(call.message);
+        }
       } else {
-        toast.success(call.message ?? "Successfully Logged in");
+        toast.success(call?.message ?? "Successfully Logged in");
         console.log(call);
-        setCookie("ghost", call.access_token);
-        // navig.push(`/otp?xxx=${encrypt(dataset.email)}`);
+        setCookie("ghost", call?.access_token);
         navig.push(as === "user" ? "/get-service" : "/browse");
       }
-    } catch (error) {
+    } catch (error: AnyType) {
       console.error(error);
-      toast.error("Something went wrong");
     }
   };
 

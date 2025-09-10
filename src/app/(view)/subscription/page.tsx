@@ -95,7 +95,7 @@ export default function Page() {
                 />
                 <h4 className="text-2xl font-bold">${costNum}/month</h4>
                 <p className="font-semibold">
-                  Can bid {sub.number_of_quotes} quotes
+                  Can bid {i === 3 ? "Unlimited" : sub.number_of_quotes} quotes
                 </p>
                 <Subscriber i={i} x={{ ...sub, cost: costNum }} />
               </div>

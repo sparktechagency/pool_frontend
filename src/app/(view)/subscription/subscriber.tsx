@@ -22,6 +22,7 @@ export default function Subscriber({
   const router = useRouter();
   const [cookies] = useCookies(["ghost"]);
   const [loading, setLoading] = useState(false);
+  console.log("waku id", i);
 
   const { mutate } = useMutation({
     mutationKey: ["subscription"],

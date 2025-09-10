@@ -28,7 +28,6 @@ export default function Page() {
     mutationFn: (newQuotes) => {
       if (!data) return Promise.reject("No data");
       const subscriptionId = data.subscriptions[parseInt(selectedTab) - 1].id;
-
       return updateSubscription(subscriptionId, cookies.adminGhost, newQuotes);
     },
     onError: (err: AnyType) => {
@@ -90,13 +89,19 @@ export default function Page() {
       </Tabs>
       <Separator />
       <Label>Amount of quotes:</Label>
-      <Input
-        type="number"
-        placeholder="Number of quotes provider get"
-        value={quotesInput}
-        onChange={(e) => setQuotesInput(Number(e.target.value))}
-      />
+      {selectedTab !== "4" ? (
+        <Input
+          type="number"
+          placeholder="Number of quotes provider get"
+          value={quotesInput}
+          onChange={(e) => setQuotesInput(Number(e.target.value))}
+        />
+      ) : (
+        <Input value={"Unlimited"} disabled />
+      )}
+
       <Label>Price:</Label>
+
       <Input
         type="number"
         step="0.01" // allows decimal input
