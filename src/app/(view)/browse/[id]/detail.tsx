@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-
 import { AnyType } from "@/lib/config/error-type";
 import { Loader2Icon, MailIcon, MapPin } from "lucide-react";
 import Image from "next/image";

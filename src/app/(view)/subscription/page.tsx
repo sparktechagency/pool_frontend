@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
+
 import Bread from "@/components/core/bread";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -6,6 +7,7 @@ import React from "react";
 import Subscriber from "./subscriber";
 import { AnyType } from "@/lib/config/error-type";
 import { getSubscriptionProvApi } from "@/lib/api/admin/admin";
+import { useQuery } from "@tanstack/react-query";
 
 export type SubscriptionDetailsType = {
   id: number;
@@ -17,17 +19,28 @@ export type SubscriptionDetailsType = {
   cost?: number;
 };
 
-export default async function Page() {
-  let call: AnyType = null;
+export default function Page() {
+  const {
+    data: call,
+    isLoading,
+    isError,
+  } = useQuery<AnyType>({
+    queryKey: ["subscriptions"],
+    queryFn: () => getSubscriptionProvApi(),
+  });
 
-  try {
-    call = await getSubscriptionProvApi();
-  } catch (e) {
-    // Fail-safe so build doesn't crash
-    call = { status: false, subscriptions: [] };
+  if (isLoading) {
+    return (
+      <main>
+        <Bread />
+        <div className="mt-12 flex justify-center items-center">
+          <p>Loading subscriptions...</p>
+        </div>
+      </main>
+    );
   }
 
-  if (!call?.status || !Array.isArray(call.subscriptions)) {
+  if (isError || !call?.status || !Array.isArray(call.subscriptions)) {
     return (
       <main>
         <Bread />

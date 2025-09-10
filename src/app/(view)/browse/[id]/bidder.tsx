@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -35,13 +34,10 @@ export default function Bidder({
       return AcceptQuoteApi(id, token);
     },
   });
-  // expected = data.
-  // if (String(expected) !== "0.00") {
-  //   return <Button className="w-full rounded-full">View Your Bid</Button>;
-  // }
+
   return (
     <div className="w-full grid grid-cols-2 gap-4 my-6">
-      {data?.service_type === "pool service" && (
+      {parseInt(data?.expected_budget) > 0 && (
         <Button
           variant={"outline"}
           className="rounded-full"
@@ -81,7 +77,7 @@ export default function Bidder({
           <Button
             className={cn(
               "rounded-full",
-              data?.service_type !== "pool service" && "col-span-2"
+              parseInt(data?.expected_budget) === 0 && "col-span-2"
             )}
           >
             Start bidding

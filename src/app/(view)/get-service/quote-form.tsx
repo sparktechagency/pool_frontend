@@ -34,8 +34,6 @@ const formSchema = z.object({
   property_type: z.string(),
   service_type: z.string(),
   pool_depth: z.string(),
-  // date: z.string(),
-  // time: z.string(),
   zip_code: z.string(),
   address: z.string(),
   expected_budget: z.string().optional(),
