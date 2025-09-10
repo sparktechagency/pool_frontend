@@ -87,7 +87,7 @@ export default function QuoteList() {
             <TableHeader className="bg-muted">
               <TableRow>
                 <TableHead className="text-center">#</TableHead>
-                <TableHead className="text-center">Name</TableHead>
+                <TableHead className="">Name</TableHead>
                 <TableHead className="text-center">Category</TableHead>
                 <TableHead className="text-center">Budget</TableHead>
                 <TableHead className="text-center">Action</TableHead>
@@ -106,7 +106,7 @@ export default function QuoteList() {
                       `#${item?.id}`
                     )}
                   </TableCell>
-                  <TableCell className="flex items-center justify-center gap-2">
+                  <TableCell className="flex items-center justify-start gap-2">
                     {isPending ? (
                       <>
                         <Skeleton className="h-10 w-10 rounded-full" />

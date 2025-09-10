@@ -188,8 +188,8 @@ export default function ResponsiveNavbar() {
           <Image
             src="/icon.png"
             height={80}
-            width={80}
-            className="w-[60px] md:w-[80px] lg:w-[100px]"
+            width={160}
+            className="w-[80px] md:w-[100px] lg:w-[160px] aspect-[5/2] object-contain"
             alt="Pool Valet Logo"
           />
         </div>

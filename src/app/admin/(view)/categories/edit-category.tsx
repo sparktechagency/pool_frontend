@@ -30,17 +30,12 @@ export default function EditCategory({
   currentName = "",
 }: EditCategoryProps) {
   const [cookies] = useCookies(["adminGhost"]);
-  // const { data, isPending } = useQuery({
-  //   queryKey: ["view_category"],
-  //   queryFn: () => {
-  //     return viewCategoryApi(id, cookies.adminGhost);
-  //   },
-  // });
   const [icon, setIcon] = useState<File | null>(null);
   const [name, setName] = useState(currentName);
   const [open, setOpen] = useState(false);
   const [description, setDescription] = useState("");
   const [expectedBudget, setExpectedBudget] = useState(false);
+  const [iconChanged, setIconChanged] = useState<boolean>(false);
   const qCLient = useQueryClient();
 
   const handleConfirm = async () => {
@@ -50,13 +45,21 @@ export default function EditCategory({
     }
 
     const formData = new FormData();
-    if (icon) formData.append("icon", icon);
+    if (iconChanged) {
+      if (icon) formData.append("icon", icon);
+    }
     if (name.trim()) formData.append("name", name.trim());
     formData.append("description", description);
     formData.append("_method", "PUT"); // static
     if (expectedBudget) {
       formData.append("expected_budget", "YES");
     }
+
+    console.log("FormData being sent:");
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+
     try {
       const res = await fetch(
         `${BASE_API_ENDPOINT}/admin/edit-category/${id}`,
@@ -76,9 +79,9 @@ export default function EditCategory({
         toast.error(data.message ?? "Something went wrong");
         return;
       }
-
       toast.success(data.message ?? "Category updated ✅");
       setIcon(null);
+      setIconChanged(false);
       setOpen(false);
       qCLient.invalidateQueries({ queryKey: ["category"] });
     } catch (err: any) {
@@ -105,6 +108,7 @@ export default function EditCategory({
             onChange={(e) => {
               if (e.target.files && e.target.files[0]) {
                 setIcon(e.target.files[0]);
+                setIconChanged(true);
               }
             }}
           />

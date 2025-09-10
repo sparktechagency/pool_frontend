@@ -82,49 +82,61 @@ export default function QuoteForm() {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   };
-  const onSubmit = async (data: AnyType) => {
-    if (data.date) {
-      // Assuming formatDate is correct and returns a string
-      data.date = formatDate(data.date);
-    }
-    const formData = new FormData();
-
-    // Append other data fields to the formData
-    Object.entries(data).forEach(([key, value]) => {
-      // Skip photos as we've already handled it manually
-      if (key === "photos") return;
-      if (typeof value === "string" && value.trim() !== "") {
-        formData.append(key, value);
-      } else if (typeof value === "number") {
-        formData.append(key, value.toString());
-      }
-    });
-    formData.append("photos[0]", selectedImage as File);
-
+  const onSubmit = async (values: AnyType) => {
     try {
+      // 🗓 Format date if provided
+      if (values.date) {
+        values.date = formatDate(values.date);
+      }
+
+      // 🔥 Convert service id → service name
+      let serviceName = "";
+      const found = data?.data?.find(
+        (x: AnyType) => String(x.id) === values.service
+      );
+      if (found) {
+        serviceName = found.name;
+      }
+
+      const formData = new FormData();
+
+      Object.entries(values).forEach(([key, value]) => {
+        if (key === "service") {
+          formData.append("service", serviceName);
+        } else if (typeof value === "string" && value.trim() !== "") {
+          formData.append(key, value);
+        } else if (typeof value === "number") {
+          formData.append(key, value.toString());
+        }
+      });
+
+      if (selectedImage) {
+        formData.append("photos[0]", selectedImage);
+      }
+
       const response = await fetch(`${BASE_API_ENDPOINT}/user/create-quote`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${cookies.ghost}`,
         },
-        body: formData, // Must be FormData if uploading files
+        body: formData,
       });
 
-      const data = await response.json();
+      const resData = await response.json();
 
       if (!response.ok) {
-        toast.error(data.message ?? "Something went wrong!");
+        toast.error(resData.message ?? "Something went wrong!");
         return;
       }
 
-      toast.success(data.message ?? "Quote created successfully!");
-      // console.log(data);
+      toast.success(resData.message ?? "Quote created successfully!");
       reset();
       navig.push("/my-orders");
     } catch (error: AnyType) {
       toast.error(error.message ?? "Something went wrong!");
     }
   };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
