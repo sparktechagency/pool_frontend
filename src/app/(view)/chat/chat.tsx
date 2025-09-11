@@ -54,8 +54,7 @@ interface SocketStatus {
   error?: string;
 }
 
-// const SOCKET_URL = BASE_ENDPOINT;
-const SOCKET_URL = `http://10.10.10.65:3000`;
+const SOCKET_URL = BASE_ENDPOINT;
 
 const RECONNECTION_ATTEMPTS = 10;
 const RECONNECTION_DELAY = 1000;
