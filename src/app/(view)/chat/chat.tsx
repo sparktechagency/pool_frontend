@@ -54,7 +54,8 @@ interface SocketStatus {
   error?: string;
 }
 
-const SOCKET_URL = BASE_ENDPOINT;
+// const SOCKET_URL = BASE_ENDPOINT;
+const SOCKET_URL = `http://10.10.10.65:3000`;
 
 const RECONNECTION_ATTEMPTS = 10;
 const RECONNECTION_DELAY = 1000;
@@ -520,8 +521,18 @@ export default function ChatPage() {
                     selectedChat === x.id?.toString() ? "bg-foreground/5" : ""
                   }`}
                   onClick={() => {
-                    setSelectedChat(x?.id?.toString());
-                    setMessages([]);
+                    const newChatId = x?.id?.toString();
+
+                    if (newChatId && newChatId !== selectedChat) {
+                      // update state
+                      setSelectedChat(newChatId);
+                      setMessages([]);
+
+                      // also update the URL search param so it stays in sync
+                      const url = new URL(window.location.href);
+                      url.searchParams.set("id", newChatId);
+                      window.history.pushState({}, "", url.toString());
+                    }
                   }}
                 >
                   <div className="relative">

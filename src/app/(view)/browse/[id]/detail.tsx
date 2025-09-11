@@ -25,6 +25,13 @@ export default async function Details({ id }: { id: string | number }) {
       <Loader2Icon className={`animate-spin`} />
     </div>;
   }
+  if (!call.status) {
+    return (
+      <div className={`flex justify-center items-center h-24 mx-auto`}>
+        {call.message}
+      </div>
+    );
+  }
 
   return (
     <div className="w-1/2 mx-auto">

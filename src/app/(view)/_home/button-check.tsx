@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,47 +10,53 @@ import {
 } from "@/components/ui/dialog";
 import { getProfileApi } from "@/lib/api/auth/auth";
 import { AnyType } from "@/lib/config/error-type";
-import { cookies } from "next/headers";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo } from "react";
+import { useCookies } from "react-cookie";
 
-export default async function ButtonCheck() {
-  const token = (await cookies()).get("ghost")?.value;
+export default function ButtonCheck() {
+  const [{ ghost }] = useCookies(["ghost"]);
 
-  let href = "/browse";
-  if (token) {
-    try {
-      const { data }: AnyType = await getProfileApi(token);
-      // console.log(data);
-      if (data?.role === "USER") href = "/get-service";
-    } catch {}
-  } else {
+  const { data, isPending } = useQuery({
+    queryKey: ["profile", ghost],
+    queryFn: (): AnyType => getProfileApi(ghost),
+    enabled: !!ghost, // don’t run if no cookie
+  });
+
+  // decide target link based on profile
+  const href = useMemo(() => {
+    if (isPending) return "/browse"; // fallback while loading
+    if (data?.role === "USER") return "/get-service";
+    return "/browse";
+  }, [data, isPending]);
+
+  if (!ghost) {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="w-full sm:w-auto lg:text-xl py-6! px-8! bg-[#003B73] hover:bg-[#002873e5]">
+          <Button className="w-full sm:w-auto lg:text-xl py-6 px-8 bg-[#003B73] hover:bg-[#002873e5]">
             Get Quotes
           </Button>
         </DialogTrigger>
         <DialogContent className="md:w-[500px] bg-primary/50 backdrop-blur-[2px] border-0 shadow-lg shadow-black/50 text-background">
           <DialogHeader>
-            <DialogTitle></DialogTitle>
-          </DialogHeader>
-          <div className="px-4! md:px-6! space-y-4!">
-            <h1 className="text-center text-xl md:text-2xl">
+            <DialogTitle className="text-center text-xl md:text-2xl">
               Welcome to Pool Valet
-            </h1>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="px-4 md:px-6 space-y-4">
             <p className="text-sm text-center text-background/60">
               Whether you&apos;re a pool professional offering expert service or
               a homeowner seeking trusted care, Pool Valet connects you with
-              what matters quality, convenience, and peace of mind.
+              what matters: quality, convenience, and peace of mind.
             </p>
             <Button
               size="lg"
               className="bg-accent-foreground hover:bg-accent-foreground/80 rounded-full w-full"
               asChild
             >
-              <Link href={`/auth?as=user`}>Continue as Home Owner</Link>
+              <Link href="/auth?as=user">Continue as Home Owner</Link>
             </Button>
             <Button
               size="lg"
@@ -67,7 +73,8 @@ export default async function ButtonCheck() {
 
   return (
     <Button
-      className="w-full sm:w-auto lg:text-xl py-6! px-8! bg-[#003B73] hover:bg-[#002873e5]"
+      className="w-full sm:w-auto lg:text-xl py-6 px-8 bg-[#003B73] hover:bg-[#002873e5]"
+      size={"lg"}
       asChild
     >
       <Link href={href}>Get Quotes</Link>
