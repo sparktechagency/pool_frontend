@@ -144,7 +144,9 @@ export default function Pending() {
                     <Skeleton className="h-8 w-24 mx-auto" />
                   ) : (
                     <Button variant="ghost" asChild>
-                      <Link href={`/browse/${item?.id}/bids/summary`}>
+                      <Link
+                        href={`/browse/${item?.quote_id}/bids/summary?bid_id=${item.id}`}
+                      >
                         View Details <ArrowRight />
                       </Link>
                     </Button>

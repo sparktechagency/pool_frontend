@@ -11,6 +11,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import MarkComplete from "./markcompelte";
 
 export default async function Details({ id }: { id: string | number }) {
   const token = (await cookies()).get("ghost")?.value;
@@ -18,6 +19,8 @@ export default async function Details({ id }: { id: string | number }) {
     return notFound();
   }
   const call: AnyType = await ViewBrowsedQuoteApi(id, token ?? "");
+  console.log(call);
+
   const data = call?.data;
   const planCall: AnyType = await CurrentAplanApi(token);
   if (!data) {
@@ -25,7 +28,15 @@ export default async function Details({ id }: { id: string | number }) {
       <Loader2Icon className={`animate-spin`} />
     </div>;
   }
-  // console.log(planCall);
+
+  console.log();
+  if (!call.status) {
+    return (
+      <div className="min-h-screen w-full flex justify-center items-center">
+        {call?.status}
+      </div>
+    );
+  }
 
   return (
     <div className="w-full lg:px-[7%] grid grid-cols-2 gap-6 mx-auto">
@@ -67,14 +78,14 @@ export default async function Details({ id }: { id: string | number }) {
         <div
           className={cn(
             "py-2 px-6 w-fit mx-auto my-12 rounded-lg flex justify-center items-center font-semibold text-xl",
-            data.status === "Pending"
+            data?.status === "Pending"
               ? "bg-amber-200"
-              : data.status === "In progress"
+              : data?.status === "In progress"
               ? "bg-blue-200"
               : "bg-green-200"
           )}
         >
-          {data.status}
+          {data?.status}
         </div>
         <p className="font-semibold text-center items-center mx-auto w-fit flex justify-center gap-2 mt-6 text-muted-foreground text-sm">
           <InfoIcon className="size-5" />
@@ -122,9 +133,13 @@ export default async function Details({ id }: { id: string | number }) {
               Chat
             </Link>
           </Button>
-          <Button className="rounded-full" asChild>
-            <Link href={"/service"}>Track the service</Link>
-          </Button>
+          {data?.status === "In progress" ? (
+            <MarkComplete />
+          ) : (
+            <Button className="rounded-full" asChild>
+              <Link href={"/service"}>Track the service</Link>
+            </Button>
+          )}
         </div>
       </div>
       <div className="">

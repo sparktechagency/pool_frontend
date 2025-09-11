@@ -8,7 +8,13 @@ export default function AuthForms() {
   const as = useSearchParams().get("as");
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center !p-4">
+    <div className="min-h-screen bg-gray-50 flex flex-col gap-6 items-center justify-center !p-4">
+      <h2>
+        You&apos;re logging in as {as === "user" ? "an" : "a"}{" "}
+        <span className="font-semibold capitalize">
+          {as === "user" ? "Home owner" : as}
+        </span>
+      </h2>
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="flex border-b">
           <button

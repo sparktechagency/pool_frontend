@@ -78,7 +78,7 @@ export default function EditForm({
             toast.error(err.message ?? "Bid Edit Failed");
           },
           onSuccess: (data: AnyType) => {
-            if (!data.status) {
+            if (!data?.status) {
               toast.error(data.message ?? "Bid Edit Failed");
             } else {
               toast.success(data.message ?? "Bid Edit successful");

@@ -16,9 +16,9 @@ export default function QuoteList() {
       <CardContent>
         <Tabs className="mb-6" defaultValue="all">
           <TabsList className="bg-inherit">
-            <TabsTrigger value="all" className="data-[state=active]:border-b-2">
+            {/* <TabsTrigger value="all" className="data-[state=active]:border-b-2">
               All
-            </TabsTrigger>
+            </TabsTrigger> */}
             <TabsTrigger value="pending">Pending</TabsTrigger>
             {/* <TabsTrigger value="progress">In Progress</TabsTrigger> */}
             <TabsTrigger value="complete">Complete</TabsTrigger>

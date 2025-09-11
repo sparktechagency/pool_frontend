@@ -97,6 +97,8 @@ export const browseQuotesApi = async (token:string,page:string|number)=>{
   return await howl({link:`/provider/browse-quotes?per_page=10&page=${page}`,token});
 }
 export const browseServiceApi = async (token:string,page:string|number,status?:string|null)=>{
+  console.log(`/provider/my-service-quotes?per_page=10&page=${page}${status&&`&status=${status??""}`}`);
+  
   return await howl({link:`/provider/my-service-quotes?per_page=10&page=${page}${status&&`&status=${status??""}`}`,token});
 }
 
@@ -150,7 +152,9 @@ export const cancelBidApi = async (id:string|number,token:string)=>{
   return await howl({link:`/provider/cancel-bid/${id}`,method:"delete",token});
 }
 export const completeBidApi = async (id:string|number,token:string)=>{  
-  return await howl({link:`/provider/mark-as-complete?quote_id=${id}`,method:"patch",token});
+  console.log(id);
+  
+  return await howl({link:`/provider/mark-as-complete?bid_id=${id}`,method:"patch",token});
 }
 
 export const earningsApi = async (token:string,page:string|number,status?:string|null)=>{

@@ -146,11 +146,11 @@ export default function OrderList() {
                     toast.error(err.message ?? "Failed to save final");
                   },
                   onSuccess: (data: AnyType) => {
-                    if (!data.status) {
+                    if (!data?.status) {
                       toast.error(data.message ?? "Failed to save final");
                     } else {
                       toast.success(data.message ?? "Final Save Successful");
-                      navig.push(window.location.href + "/summary");
+                      navig.push(window.location.href + "/summary?bid_id=");
                     }
                   },
                 });

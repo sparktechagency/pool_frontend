@@ -38,8 +38,8 @@ export default function Complete() {
   }, [cookies.ghost]);
 
   const { data, isPending, isError }: AnyType = useQuery({
-    queryKey: ["quotes", page],
-    queryFn: () => browseServiceApi(cookies.ghost, page, "Complete"),
+    queryKey: ["quotes_complete", page],
+    queryFn: () => browseServiceApi(cookies.ghost, page, "Completed"),
     enabled: !!ghostCookie,
   });
 
@@ -143,7 +143,9 @@ export default function Complete() {
                     <Skeleton className="h-8 w-24 mx-auto" />
                   ) : (
                     <Button variant="ghost" asChild>
-                      <Link href={`/browse/${item?.id}/bids/summary`}>
+                      <Link
+                        href={`/browse/${item?.quote_id}/bids/summary?bid_id=${item.id}`}
+                      >
                         View Details <ArrowRight />
                       </Link>
                     </Button>
