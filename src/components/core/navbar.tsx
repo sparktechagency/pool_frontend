@@ -1,6 +1,13 @@
 "use client";
 
-import { BellIcon, MailIcon, User2Icon, Menu, Clock2Icon } from "lucide-react";
+import {
+  BellIcon,
+  MailIcon,
+  User2Icon,
+  Menu,
+  Clock2Icon,
+  LogOutIcon,
+} from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -321,6 +328,16 @@ export default function ResponsiveNavbar() {
               </SheetHeader>
               <div className="flex flex-col gap-4 mt-6!">
                 <NavigationButtons />
+                <div className="px-6 w-full">
+                  <Button
+                    className="mt-6 bg-transparent! hover:border-destructive! hover:text-destructive w-full"
+                    variant={"outline"}
+                    onClick={() => mutate(cookies.ghost)}
+                  >
+                    <LogOutIcon />
+                    Log out
+                  </Button>
+                </div>
               </div>
             </SheetContent>
           </Sheet>

@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { completeBidApi } from "@/lib/api/core/core";
+import { cancelBidApi } from "@/lib/api/core/core";
 import { AnyType } from "@/lib/config/error-type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -8,15 +8,16 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "sonner";
 
-export default function MarkComplete() {
+export default function CancelBid() {
   const [{ ghost }] = useCookies(["ghost"]);
   const bid_id = useSearchParams().get("bid_id");
   const qCl = useQueryClient();
   const navig = useRouter();
   const { mutate } = useMutation({
-    mutationKey: ["mark_as_complete"],
+    mutationKey: ["cancel_bid"],
+
     mutationFn: () => {
-      return completeBidApi(bid_id!, ghost);
+      return cancelBidApi(bid_id!, ghost);
     },
     onError: (err) => {
       toast.error(err.message ?? "Failed to complete this request");
@@ -34,7 +35,7 @@ export default function MarkComplete() {
         mutate();
       }}
     >
-      Mark as complete
+      Cancel Bid
     </Button>
   );
 }

@@ -150,7 +150,9 @@ export default function OrderList() {
                       toast.error(data.message ?? "Failed to save final");
                     } else {
                       toast.success(data.message ?? "Final Save Successful");
-                      navig.push(window.location.href + "/summary?bid_id=");
+                      navig.push(
+                        window.location.href + `/summary?bid_id=${data.data.id}`
+                      );
                     }
                   },
                 });

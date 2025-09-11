@@ -12,6 +12,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import MarkComplete from "./markcompelte";
+import CancelBid from "./cancel-bid";
 
 export default async function Details({ id }: { id: string | number }) {
   const token = (await cookies()).get("ghost")?.value;
@@ -133,7 +134,9 @@ export default async function Details({ id }: { id: string | number }) {
               Chat
             </Link>
           </Button>
-          {data?.status === "In progress" ? (
+          {data?.status === "Pending" ? (
+            <CancelBid />
+          ) : data?.status === "In progress" ? (
             <MarkComplete />
           ) : (
             <Button className="rounded-full" asChild>

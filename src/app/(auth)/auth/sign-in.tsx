@@ -104,13 +104,6 @@ export default function SignIn() {
                   <FormLabel className="text-sm font-medium text-gray-700">
                     Password
                   </FormLabel>
-                  <Button
-                    className="text-sm text-accent-foreground hover:text-accent-foreground/80 font-medium"
-                    variant="link"
-                    asChild
-                  >
-                    <Link href={"/forgot"}>Forget Password?</Link>
-                  </Button>
                 </div>
                 <FormControl>
                   <div className="relative">
@@ -136,6 +129,15 @@ export default function SignIn() {
               </FormItem>
             )}
           />
+          <div className="flex items-end justify-end">
+            <Button
+              className="text-sm text-accent-foreground hover:text-accent-foreground/80 font-medium"
+              variant="link"
+              asChild
+            >
+              <Link href={"/forgot"}>Forget Password?</Link>
+            </Button>
+          </div>
 
           <Button
             type="submit"
