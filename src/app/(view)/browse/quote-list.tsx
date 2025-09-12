@@ -45,7 +45,7 @@ export default function QuoteList() {
 
   if (!ghostCookie) {
     return (
-      <Card className="w-2/3 mx-auto!">
+      <Card className="w-full lg:w-2/3 mx-auto!">
         <CardHeader>
           <CardTitle className="text-2xl text-accent-foreground">
             Quotes near me
@@ -60,7 +60,7 @@ export default function QuoteList() {
 
   if (isError) {
     return (
-      <Card className="w-2/3 mx-auto!">
+      <Card className="w-full lg:w-2/3 mx-auto!">
         <CardHeader>
           <CardTitle className="text-2xl text-accent-foreground">
             Quotes near me
@@ -76,7 +76,7 @@ export default function QuoteList() {
   const quoteData = data?.data?.data ?? [];
   return (
     <>
-      <Card className="w-2/3 mx-auto!">
+      <Card className="w-full lg:w-2/3 mx-auto!">
         <CardHeader>
           <CardTitle className="text-2xl text-accent-foreground">
             Quotes near me
@@ -115,7 +115,7 @@ export default function QuoteList() {
                     ) : (
                       <>
                         <Avatar>
-                          <AvatarImage src={item.user.avatar} />
+                          <AvatarImage src={item?.user?.avatar} />
                           <AvatarFallback>UI</AvatarFallback>
                         </Avatar>
                         {item?.user?.full_name}

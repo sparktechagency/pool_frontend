@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getNotificationApi, readAllApi, readApi } from "@/lib/api/auth/auth";
 import { useCookies } from "react-cookie";
 import { Loader2Icon } from "lucide-react";
@@ -12,6 +12,7 @@ import { serverImageBuilder } from "@/lib/formatter";
 
 export default function Notifs() {
   const [cookies] = useCookies(["ghost"]);
+  const queryClient = useQueryClient();
   const { data, isPending, refetch }: AnyType = useQuery({
     queryKey: ["profile"],
     refetchOnMount: "always",
@@ -52,6 +53,7 @@ export default function Notifs() {
                 {
                   toast.success(call.message ?? "Marked all notifciation");
                   refetch();
+                  queryClient.invalidateQueries({ queryKey: ["notif"] });
                 }
               } catch (error) {
                 console.error(error);

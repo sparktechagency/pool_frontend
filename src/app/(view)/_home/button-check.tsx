@@ -63,7 +63,9 @@ export default function ButtonCheck() {
               className="bg-background hover:bg-slate-200 text-foreground rounded-full w-full"
               asChild
             >
-              <Link href="/auth?as=provider">Continue as Service Provider</Link>
+              <Link suppressHydrationWarning href="/auth?as=provider">
+                Continue as Service Provider
+              </Link>
             </Button>
           </div>
         </DialogContent>

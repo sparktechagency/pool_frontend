@@ -69,7 +69,7 @@ export default function Page() {
         <p className="text-lg">Find the right plan to boost your business.</p>
       </div>
 
-      <div className="w-full p-6 grid grid-cols-4 gap-6">
+      <div className="w-full p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {subs.map((sub, i) => {
           const costNum = parseFloat(sub.price || "0");
           return (

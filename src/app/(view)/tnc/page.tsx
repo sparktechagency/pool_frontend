@@ -9,7 +9,9 @@ export default function Page() {
         className="w-screen h-screen bg-center bg-cover flex justify-center flex-col items-center text-background brightness-75"
         style={{ backgroundImage: `url('/image/help.jpg')` }}
       >
-        <h1 className="text-7xl font-bold">Terms & Conditions</h1>
+        <h1 className="text-7xl font-bold text-center lg:text-start">
+          Terms & Conditions
+        </h1>
         <h3 className="text-lg mt-6">Updated July 17, 2025</h3>
       </header>
       <main>

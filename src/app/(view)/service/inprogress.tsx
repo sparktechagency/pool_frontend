@@ -87,7 +87,7 @@ export default function InProgress() {
                     `#${item?.id}`
                   )}
                 </TableCell>
-                <TableCell className="flex items-center justify-center gap-2">
+                <TableCell className="flex items-center justify-start  gap-2">
                   {isPending ? (
                     <>
                       <Skeleton className="h-10 w-10 rounded-full" />

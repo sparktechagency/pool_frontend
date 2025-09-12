@@ -40,8 +40,8 @@ export default async function Details({ id }: { id: string | number }) {
   }
 
   return (
-    <div className="w-full lg:px-[7%] grid grid-cols-2 gap-6 mx-auto">
-      <div className="col-span-2">
+    <div className="w-full lg:px-[7%] grid lg:grid-cols-2 gap-6 mx-auto px-4">
+      <div className="lg:col-span-2">
         <h1 className="text-3xl text-center mt-6">Order Details</h1>
         {planCall?.current_plan ? (
           <div className="rounded-lg bg-green-500/40 p-6 flex flex-row justify-between items-center mt-6 w-1/2 mx-auto!">
@@ -62,7 +62,7 @@ export default async function Details({ id }: { id: string | number }) {
             </Button>
           </div>
         ) : (
-          <div className="rounded-lg bg-red-500/40 border-2 border-red-500 p-6 flex flex-row justify-between items-center mt-6 w-1/2 mx-auto!">
+          <div className="rounded-lg bg-red-500/40 border-2 border-red-500 p-6 flex flex-row justify-between items-center mt-6 lg:w-1/2 mx-auto!">
             <div className="flex flex-col">
               <h4 className="font-bold">{planCall?.message}</h4>
             </div>

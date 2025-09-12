@@ -34,7 +34,7 @@ export default async function Details({ id }: { id: string | number }) {
   }
 
   return (
-    <div className="w-1/2 mx-auto">
+    <div className="w-full lg:w-1/2 mx-auto px-4">
       <h1 className="text-3xl text-center mt-6">Order Details</h1>
       {planCall?.current_plan && (
         <div className="w-full rounded-lg bg-green-500/40 p-6 flex flex-row justify-between items-center mt-6">

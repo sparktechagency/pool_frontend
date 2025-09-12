@@ -143,7 +143,9 @@ export default function Complete() {
                     <Skeleton className="h-8 w-24 mx-auto" />
                   ) : (
                     <Button variant="ghost" asChild>
-                      <Link href={`/service/${item?.id}`}>
+                      <Link
+                        href={`/browse/${item?.quote_id}/bids/summary?bid_id=${item.id}`}
+                      >
                         View Details <ArrowRight />
                       </Link>
                     </Button>

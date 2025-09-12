@@ -7,14 +7,14 @@ import Complete from "./complete";
 
 export default function QuoteList() {
   return (
-    <Card className="w-2/3 mx-auto">
+    <Card className="lg:w-2/3 mx-auto">
       <CardHeader>
         <CardTitle className="text-2xl text-accent-foreground">
           Earnings
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <Tabs className="mb-6" defaultValue="all">
+        <Tabs className="mb-6" defaultValue="pending">
           <TabsList className="bg-inherit">
             {/* <TabsTrigger value="all" className="data-[state=active]:border-b-2">
               All

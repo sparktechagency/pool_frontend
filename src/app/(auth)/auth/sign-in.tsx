@@ -55,7 +55,7 @@ export default function SignIn() {
             toast.success(res.message ?? "Login Success");
             try {
               setCookie("ghost", res.token);
-              navig.push("/");
+              navig.push("/profile");
             } catch (error) {
               console.error(error);
               toast.error("Failed to set Cookie");
