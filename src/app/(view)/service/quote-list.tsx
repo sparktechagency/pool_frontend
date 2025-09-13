@@ -7,7 +7,7 @@ import Complete from "./complete";
 
 export default function QuoteList() {
   return (
-    <Card className="w-2/3 mx-auto">
+    <Card className="w-full lg:w-2/3 mx-auto">
       <CardHeader>
         <CardTitle className="text-2xl text-accent-foreground">
           Service

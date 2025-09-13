@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <>
       <Bread />
-      <main className="px-8! py-12!">
+      <main className="px-4 lg:px-8! py-12!">
         <Suspense
           fallback={
             <div className="flex justify-center">

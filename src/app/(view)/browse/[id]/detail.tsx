@@ -32,6 +32,7 @@ export default async function Details({ id }: { id: string | number }) {
       </div>
     );
   }
+  console.log(data);
 
   return (
     <div className="w-full lg:w-1/2 mx-auto px-4">

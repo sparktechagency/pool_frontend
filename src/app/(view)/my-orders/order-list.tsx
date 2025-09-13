@@ -25,14 +25,15 @@ import { useQuery } from "@tanstack/react-query";
 import { myOrdersApi, myAcceptedOrdersApi } from "@/lib/api/core/core";
 import { AnyType } from "@/lib/config/error-type";
 import { useCookies } from "react-cookie";
+import { useSearchParams } from "next/navigation";
 
 export default function OrderList() {
+  const s = useSearchParams().get("s");
   const [activeTab, setActiveTab] = useState<
     "" | "Pending" | "In progress" | "Completed"
-  >("");
+  >(s === "completed" ? "Completed" : "Pending");
   const [page, setPage] = useState(1);
   const [cookies] = useCookies(["ghost"]);
-
   const { data, isFetching }: AnyType = useQuery({
     queryKey: ["order", activeTab, page],
     queryFn: () => {
@@ -69,7 +70,10 @@ export default function OrderList() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Tabs className="mb-6" defaultValue="">
+          <Tabs
+            className="mb-6"
+            defaultValue={s === "completed" ? "Completed" : "Pending"}
+          >
             <TabsList className="bg-inherit">
               <TabsTrigger
                 value="Pending"

@@ -25,22 +25,34 @@ export default async function ProfileSec() {
     <section className="mx-auto! w-2/3 space-y-4!">
       <h1 className="text-4xl font-semibold">Hello, {user.full_name}</h1>
       <p className="w-2/3">
-        From your account dashboard. you can easily check & view your{" "}
-        <Link href={"/"} className="text-accent-foreground font-semibold">
-          Recent Orders
+        From your account dashboard. you can easily check &{" "}
+        <Link
+          href={user.role === "USER" ? "/my-orders" : "/service"}
+          className="text-accent-foreground font-semibold"
+        >
+          View in progress quotes
         </Link>
-        , manage your{" "}
-        <Link href={"/"} className="text-accent-foreground font-semibold">
-          Shipping and Billing Addresses
-        </Link>{" "}
-        and edit your{" "}
-        <Link href={"/"} className="text-accent-foreground font-semibold">
-          Password
+        ,{" "}
+        <Link
+          href={user.role === "USER" ? "/my-orders?s=completed" : "/earnings"}
+          className="text-accent-foreground font-semibold"
+        >
+          View completed orders
         </Link>{" "}
         and{" "}
-        <span className="text-accent-foreground font-semibold">
-          Account Details
-        </span>{" "}
+        <Link
+          href={user.role === "USER" ? "/get-service" : "/browse"}
+          className="text-accent-foreground font-semibold"
+        >
+          Start new quote
+        </Link>{" "}
+        and{" "}
+        <Link
+          href={user.role === "USER" ? "/my-orders?s=completed" : "/earnings"}
+          className="text-accent-foreground font-semibold"
+        >
+          Billing & payments
+        </Link>{" "}
         .
       </p>
       {user.role === "PROVIDER" && !user.stripe_account_id && (

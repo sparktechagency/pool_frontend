@@ -12,12 +12,12 @@ import { getProfileApi } from "@/lib/api/auth/auth";
 import { AnyType } from "@/lib/config/error-type";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useCookies } from "react-cookie";
 
 export default function ButtonCheck() {
   const [{ ghost }] = useCookies(["ghost"]);
-
+  const [exists, setExists] = useState<boolean>(false);
   const { data, isPending } = useQuery({
     queryKey: ["profile", ghost],
     queryFn: (): AnyType => getProfileApi(ghost),
@@ -26,11 +26,16 @@ export default function ButtonCheck() {
 
   // decide target link based on profile
   const href = useMemo(() => {
-    if (isPending) return "/browse"; // fallback while loading
+    if (isPending) return "/browse";
     if (data?.role === "USER") return "/get-service";
     return "/browse";
   }, [data, isPending]);
-
+  useEffect(() => {
+    setExists(true);
+  }, []);
+  if (!exists) {
+    return;
+  }
   if (!ghost) {
     return (
       <Dialog>
